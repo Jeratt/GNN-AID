@@ -78,8 +78,6 @@ class BaseMeta(PoisonAttacker):
             self.feature_changes.data.fill_(0)
 
     def attack(self, gen_dataset):
-        # TODO model choice by user to be implemented.
-        #  note: kind of sophisticated task
 
         # Initial surrogate model training
 
@@ -219,7 +217,7 @@ class MetaAttackFull(BaseMeta):
     def attack(self, gen_dataset, attack_budget=10, ll_constraint=True, ll_cutoff=0.004):
         super().attack(gen_dataset=gen_dataset)
 
-        self.hidden_sizes = [16]   # FIXME get from model architecture
+        self.hidden_sizes = [16]
         self.nfeat = gen_dataset.num_node_features
         self.nclass = gen_dataset.num_classes
 
@@ -424,7 +422,7 @@ class MetaAttackApprox(BaseMeta):
     def attack(self, gen_dataset, attack_budget=500, ll_constraint=True, ll_cutoff=0.004):
         super().attack(gen_dataset=gen_dataset)
 
-        self.hidden_sizes = [16]   # FIXME get from model architecture
+        self.hidden_sizes = [16]
         self.nfeat = gen_dataset.num_node_features
         self.nclass = gen_dataset.num_classes
 

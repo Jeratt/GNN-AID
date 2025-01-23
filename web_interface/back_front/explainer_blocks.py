@@ -116,7 +116,7 @@ class ExplainerLoadBlock(Block):
         index, self.info = DataInfo.explainers_parse()
 
         ps = index.filter(dict(zip(keys_list, values_info)))
-        # return [ps.to_json(), json_dumps(self.info)] FIXME misha parsing error on front
+        # return [ps.to_json(), json_dumps(self.info)]
         return [ps.to_json(), '{}']
 
     def _explainer_kwargs(

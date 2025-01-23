@@ -11,7 +11,6 @@ from explainers.explainer import Explainer, finalize_decorator
 from explainers.explanation import AttributionExplanation
 
 
-# FIXME Monkey Patch for SubgraphX until DIG library doesn't support torch-geometric 2.3.1
 # PATCH BEGIN
 MarginalSubgraphDataset.__abstractmethods__ = frozenset()
 # PATCH END
@@ -65,7 +64,6 @@ class _MCTS(MCTS):
         return explanations
 
 
-# TODO misha divide to orig SubgraphX and our
 class SubgraphXExplainer(Explainer):
     r"""
     The implementation of paper
@@ -345,7 +343,7 @@ class SubgraphXExplainer(Explainer):
         if self.gen_dataset.is_multi():
             explanation_results = self.read_from_MCTSInfo_list(self.raw_explanation[pred])
             tree_node_x = find_closest_node_result(explanation_results, max_nodes=self.max_nodes)
-            _nodes = tree_node_x.coalition  # TODO misha check correctness with different datasets
+            _nodes = tree_node_x.coalition
         else:
             explanation_results = self.read_from_MCTSInfo_list(self.raw_explanation[pred])
             tree_node_x = find_closest_node_result(explanation_results, max_nodes=self.max_nodes)
@@ -353,9 +351,6 @@ class SubgraphXExplainer(Explainer):
             tree_node_x.coalition = [mapping[k] for k in tree_node_x.coalition]
             _nodes = tree_node_x.coalition
 
-        # Edges
-        # TODO misha can we simplify and avoid converting whole graph to networkx at each call?
-        #  same for other such cases
 
         # Create undirected subgraph induced on important nodes
         nodes = set(_nodes)

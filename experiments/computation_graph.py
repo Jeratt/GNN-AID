@@ -176,7 +176,6 @@ class OperationalGraph:
         mess_id = module_id + '_mess'
         self.add_edge(str(id(edge_index)), mess_id)
 
-        # output == agg.output ? FIXME Misha
 
     def hook(self, module, input, output):
         module_id = str(id(module))
@@ -390,7 +389,6 @@ class OperationalGraph:
     #             res["Act"].append((agg_in, agg_out))
     #
     #     # Add model params
-    #     # TODO Misha
     #
     #     tensors = {t.id: t for t in tensors}
     #     ops = {t.id: t for t in ops}

@@ -121,7 +121,6 @@ class Declare:
         path, files_paths = Declare.dataset_root_dir(dataset_config)
 
         # Find minimal free version if not specified
-        # QUE Kirill, maybe we can make it better
         if dataset_var_config["dataset_ver_ind"] is None:
             ix = 0
             while True:
@@ -172,7 +171,6 @@ class Declare:
         ]
         # print(class_obj.modification.to_saveable_dict(compact=True, need_full=False))
 
-        # QUE Kirill, maybe we can make it better
         if model_ver_ind_none_flag:
             ix = 0
             while True:
@@ -276,7 +274,6 @@ class Declare:
             "explainer_ver_ind": str(explainer_ver_ind),
         }
 
-        # QUE Kirill, maybe we can make it better
         if explainer_ver_ind is None:
             ix = 0
             while True:
@@ -312,7 +309,6 @@ class Declare:
         """
         path = Path(str(model_path).replace(str(MODELS_DIR), str(EXPLANATIONS_DIR)))
         what_save = "explanations"
-        # BUG Misha, check is correct next line, because in def obj_info_to_path can't be Path or str
         obj_info = explainer_path
 
         _, files_paths = Declare.obj_info_to_path(what_save=what_save, previous_path=path,

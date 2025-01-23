@@ -130,7 +130,6 @@ class CustomDataset(
             if not self.is_multi():
                 edge_attributes = [edge_attributes]
             for i, attributes in enumerate(edge_attributes):
-                # TODO check edges
                 if self.info.edge_attributes["types"][ix] == "continuous":
                     v_min, v_max = self.info.edge_attributes["values"][ix]
                     assert all(isinstance(v, (int, float, complex)) for v in attributes.values())
@@ -179,7 +178,6 @@ class CustomDataset(
                     with open(self.node_attributes_dir / a, 'r') as f:
                         attr_node_attrs[a] = json.load(f)
 
-                # FIXME misha - for single graph [0]
                 edges = self.edge_index
                 node_map = (lambda i: str(self.node_map[i])) if self.node_map else lambda i: str(i)
 
@@ -234,7 +232,6 @@ class CustomDataset(
         """ Get DatasetData for debug graph
         Structure according to https://docs.google.com/spreadsheets/d/1fNI3sneeGoOFyIZP_spEjjD-7JX2jNl_P8CQrA4HZiI/edit#gid=1096434224
         """
-        # TODO misha - can we use ptg dataset? Problem is that it is not built at this stage.
         # super()._compute_dataset_data()
 
         self.dataset_data = {
@@ -243,7 +240,6 @@ class CustomDataset(
 
         # Read edges and attributes
         if self.is_multi():
-            # FIXME misha format
             count = self.info.count
             node_maps = []  # list of node_maps
 
@@ -270,7 +266,6 @@ class CustomDataset(
                     if self.info.remap:
                         i = node_map[i]
                         j = node_map[j]
-                    # TODO misha can we reuse one of them?
                     edges.append([i, j])
                     ptg_edge_index[0].append(i)
                     ptg_edge_index[1].append(j)
@@ -334,7 +329,6 @@ class CustomDataset(
                     if self.info.remap:
                         i = node_map[i]
                         j = node_map[j]
-                    # TODO misha can we reuse one of them?
                     edges.append([i, j])
                     ptg_edge_index[0].append(i)
                     ptg_edge_index[1].append(j)
@@ -385,7 +379,6 @@ class CustomDataset(
         """ Create PTG Dataset and save tensors
         """
         if self.edge_index is None:
-            # TODO Misha think if it's good
             self._compute_dataset_data()
 
         data_list = []
@@ -470,7 +463,6 @@ class CustomDataset(
         ) -> list:
             return x if isinstance(x, list) else [x]
 
-        # TODO other encoding types from Kirill
 
         if self.is_multi():
             nodes = self.info.nodes[g_ix]
@@ -489,10 +481,9 @@ class CustomDataset(
         def assign_feats(feat):
             for n, orig in self._iter_nodes(g_ix):
                 value = feat[orig]
-                assert value is not None  # FIXME misha what to do?
+                assert value is not None
                 node_features[n].extend(vec(value))
 
-        # TODO misha - can optimize? read the whole files for each graph
         node_attributes = self.info.node_attributes
         assert set(features["attr"]).issubset(node_attributes["names"])
         if self.node_attributes_dir.exists():

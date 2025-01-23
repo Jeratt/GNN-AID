@@ -189,7 +189,6 @@ class DatasetStats:
                 self.nx_graph.add_edge(i, j)
 
         try:
-            # TODO misha simplify - some stats can be computed easier
 
             if stat == "clustering_coeff":
                 # NOTE this is average local clustering, not global

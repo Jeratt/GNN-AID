@@ -49,7 +49,6 @@ class DatasetBlock(Block):
         DataInfo.refresh_data_dir_structure()
         index = DataInfo.data_parse()
 
-        # Add torch_geom FIXME tmp
         with open(TORCH_GEOM_GRAPHS_PATH, 'r') as f:
             configuration = json.load(f)
             assert len(index.keys) == 3
@@ -85,7 +84,7 @@ class DatasetVarBlock(Block):
         super().__init__(*args, **kwargs)
         self.tag = 'dvc'
 
-        self.gen_dataset: GeneralDataset = None  # FIXME duplication!!!
+        self.gen_dataset: GeneralDataset = None
         self.dataset_var_config = None
 
     def _init(

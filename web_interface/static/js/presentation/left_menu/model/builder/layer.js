@@ -101,17 +101,14 @@ class LayerBlock {
     }
 
     // copy(absIx, ix) {
-    //     // FIXME not working. do we need it?
     //     let newLayerBlock = new LayerBlock(absIx, ix)
     //     newLayerBlock.build()
     //     newLayerBlock.$typeSelect.val(this.$typeSelect.val()).change()
-    //     // FIXME why copied 2 times ???
     //     if (this.$convSelect)
     //         newLayerBlock.$convSelect.val(this.$convSelect.val()).change()
     //     newLayerBlock.$batchnormSelect.val(this.$batchnormSelect.val()).change()
     //     newLayerBlock.$activationSelect.val(this.$activationSelect.val()).change()
     //     newLayerBlock.$dropoutFlag.val(this.$dropoutFlag.val()).change()
-    //     // TODO add all the rest
     //
     //     return newLayerBlock
     // }
@@ -379,7 +376,7 @@ class LayerBlock {
 
     constructConfig(inputSize=-1) {
         let config = {
-            'label': {'n': 'n', 'g': 'g', 'gc': 'g'}[this.type], // FIXME replace gc with checker?
+            'label': {'n': 'n', 'g': 'g', 'gc': 'g'}[this.type],
             'layer': {},
         }
         let layer = config['layer']

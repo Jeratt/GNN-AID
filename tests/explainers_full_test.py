@@ -159,7 +159,6 @@ class ExplainersTest(unittest.TestCase):
             gnn=gin3_lin2_prot_mg_small, dataset_path=results_dataset_path_mg_small,
             # manager_config=gin3_lin2_mg_small_manager_config,
         )
-        # TODO Misha use as training params: clst=clst, sep=sep, save_thrsh=save_thrsh, lr=lr
 
         best_acc = self.prot_gnn_mm_mg_small.train_model(
             gen_dataset=gen_dataset_mg_small, steps=100, metrics=[])
@@ -238,7 +237,6 @@ class ExplainersTest(unittest.TestCase):
         explainer_SubgraphX.conduct_experiment(explainer_run_config)
 
     def test_PGE_SG(self):
-        # FIXME not working with another tests
         warnings.warn("Start PGExplainer(dig)")
         explainer_init_config = ConfigPattern(
             _class_name="PGExplainer(dig)",

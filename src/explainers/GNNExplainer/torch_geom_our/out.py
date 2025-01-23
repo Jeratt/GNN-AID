@@ -158,7 +158,6 @@ class GNNExplainer(Explainer):
                     if not imp < eps:
                         important_features[i] = format(imp, '.4f')
             else:  # if "attributes"
-                # TODO add functional if node_mask_type=="attributes"
                 raise NotImplementedError(f"Node mask type '{self.node_mask_type}' is not yet implemented.")
 
         if self.gen_dataset.is_multi():

@@ -60,7 +60,7 @@ class QAttacker(EvasionAttacker):
             # Get labels from black-box
             labels = model.gnn.get_answer(dataset.x, dataset.edge_index)
             labeled_nodes = dict(enumerate(labels.tolist()))
-            # labeled_nodes = {n: labels.tolist()[n-1] for n in adj_list.keys()}  # FIXME check order for labels and node id consistency
+            # labeled_nodes = {n: labels.tolist()[n-1] for n in adj_list.keys()}
 
             # Calculate modularity
             Q = self.modularity(adj_list, labeled_nodes)
@@ -78,7 +78,7 @@ class QAttacker(EvasionAttacker):
         # Get labels from black-box
         labels = model.gnn.get_answer(dataset.x, dataset.edge_index)
         labeled_nodes = dict(enumerate(labels.tolist()))
-        # labeled_nodes = {n: labels.tolist()[n-1] for n in adj_list.keys()}  # FIXME check order for labels and node id consistency
+        # labeled_nodes = {n: labels.tolist()[n-1] for n in adj_list.keys()}
 
         # Calculate modularity
         Q = self.modularity(adj_list, labeled_nodes)
@@ -89,7 +89,6 @@ class QAttacker(EvasionAttacker):
         """
         Calculation of graph modularity with specified node partition on communities
         """
-        # TODO implement oriented-modularity
 
         inc = dict([])
         deg = dict([])
@@ -106,7 +105,7 @@ class QAttacker(EvasionAttacker):
             com = labeled_nodes[node]
             deg[com] = deg.get(com, 0.) + len(non_oriented_adj_list[node])
             for neighbor in edges:
-                edge_weight = 1 # TODO weighted graph to be implemented
+                edge_weight = 1
                 if labeled_nodes[neighbor] == com:
                     if neighbor == node:
                         inc[com] = inc.get(com, 0.) + float(edge_weight)

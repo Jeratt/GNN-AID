@@ -153,7 +153,7 @@ class Block:
 
         print(f'Block[{self.name}].submit()')
         self._submit()
-        # self._send('onSubmit')  # FIXME do we want result?
+        # self._send('onSubmit')
         self._send('onSubmit', self._result)
         if self.diagram:
             self.diagram.on_submit(self)
@@ -233,8 +233,6 @@ class WrapperBlock(Block):
             old_submits[b] = copy_func(b.submit)
 
             def new_submit(slf):
-                # FIXME what if finalize fails?
-                # FIXME block submits the same as wrapper submits - do we need it?
                 old_submits[slf](slf)
                 self.onsubmit(slf)  # NOTE it uses old unlock functions
 

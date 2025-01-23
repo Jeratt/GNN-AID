@@ -27,8 +27,7 @@ def worker_process(
         sid: str
 ) -> None:
     print(f"Process {process_id} started")
-    # TODO problem is each process sends data to main process then to frontend.
-    #  Easier to send it directly to url
+
 
     client = FrontendClient(sid)
     # client.socket.socket.send('hello from subprocess')
@@ -301,13 +300,7 @@ if __name__ == '__main__':
     # print(f"Async mode is: {socketio.async_mode}")
     socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
 
-    # TODO switch to 'run' in production
-    #  In production mode the eventlet web server is used if available,
-    #  else the gevent web server is used. If eventlet and gevent are not installed,
-    #  the Werkzeug development web server is used.
     # app.run(debug=True, port=4568)
 
-    # TODO Flask development web server is used, use eventlet or gevent,
-    #  see https://flask-socketio.readthedocs.io/en/latest/deployment.html
     # socketio.run(app, host='0.0.0.0', debug=True, port=4567,
     #              allow_unsafe_werkzeug=True)

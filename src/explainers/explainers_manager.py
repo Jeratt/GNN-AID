@@ -9,7 +9,6 @@ from base.datasets_processing import GeneralDataset
 from explainers.explainer import Explainer, ProgressBar
 from explainers.explainer_metrics import NodesExplainerMetric
 
-# TODO misha can we do it not manually?
 # Need to import all modules with subclasses of Explainer, otherwise python can't see them
 
 for pack in [
@@ -149,7 +148,6 @@ class FrameworkExplainersManager:
             self,
             run_config: Union[ConfigPattern, ExplainerRunConfig]
     ) -> None:
-        # TODO pass configs
         self.explainer_result_file_path, self.files_paths = Declare.explanation_file_path(
             models_path=self.gnn_model_path,
             explainer_name=self.explainer_name,
@@ -184,7 +182,6 @@ class FrameworkExplainersManager:
                     "explanation_data": result
                 })
 
-            # TODO what if save_explanation_flag=False?
             if self.save_explanation_flag:
                 self.save_explanation(run_config)
                 path = self.model_manager.save_model_executor()
@@ -255,7 +252,6 @@ class FrameworkExplainersManager:
                     "explanation_metrics": result
                 })
 
-            # TODO what if save_explanation_flag=False?
             if self.save_explanation_flag:
                 # self.save_explanation_metrics(run_config)
                 self.model_manager.save_model_executor()

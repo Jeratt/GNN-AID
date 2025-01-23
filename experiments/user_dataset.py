@@ -45,7 +45,7 @@ def converted_local():
     from torch_geometric.data import Data
 
     def from_dgl(g, label):
-        """ Converter from DGL graph by Misha S.
+        """ Converter from DGL graph
         """
         x = g.nodes[0].data['feat']
         for i in range(1, g.nodes().size(0)):

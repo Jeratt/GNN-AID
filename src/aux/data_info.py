@@ -344,7 +344,6 @@ class DataInfo:
                 if not os.listdir(full_path):
                     for file in filenames:
                         import re
-                        # QUE Kirill, maybe should make better check
                         check_math = re.search(f"{dir_name}.*", str(file))
                         if check_math is not None:
                             os.remove(os.path.join(dir_path, check_math.group(0)))

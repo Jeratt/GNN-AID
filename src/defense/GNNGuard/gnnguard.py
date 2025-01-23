@@ -370,7 +370,6 @@ class GuardWrapper(nn.Module):
                     edge_weight = adj._values()
 
 
-            # QUE Kirill, maybe we should not off UserWarning
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", category=UserWarning)
                 # mid = x

@@ -173,7 +173,7 @@ class ModelCustomBlock(Block):
     def _finalize(
             self
     ) -> bool:
-        if not (len(self._config.keys()) == 2):  # TODO better check
+        if not (len(self._config.keys()) == 2):
             return False
 
         self.model_name = self._config
@@ -182,7 +182,6 @@ class ModelCustomBlock(Block):
     def _submit(
             self
     ) -> None:
-        # FIXME misha this is bad way
         user_models_obj_dict_info = UserCodeInfo.user_models_list_ref()
         cm_path = None
 
@@ -273,7 +272,6 @@ class ModelManagerBlock(Block):
             dataset_path=self.gen_dataset.results_dir,
             modification=ModelModificationConfig(
                 model_ver_ind=0,
-                # FIXME Kirill front attack
                 epochs=0,
             )
         )
@@ -296,7 +294,6 @@ class ModelManagerBlock(Block):
 
         res = {}
         res.update(send_train_test_mask(self.gen_dataset, None, visible_part))
-        # TODO duplicste code
         if self._object.stats_data is not None:
             stats_data = {k: visible_part.filter(v)
                           for k, v in self._object.stats_data.items()}

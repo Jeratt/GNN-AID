@@ -178,7 +178,6 @@ class GraphMaskExplainer(Explainer, ExplainerBase):
 
         if self.gen_dataset.is_multi():
             raise NotImplementedError
-            # TODO Danil - what should be here?
             # pred = [self.gnn(data.x, data.edge_index).argmax(-1).item()
             #         for data in self.gen_dataset.dataset]
             # pred = [self.model.get_answer(data.x, data.edge_index).item()

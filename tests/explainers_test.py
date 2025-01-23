@@ -129,7 +129,6 @@ class ExplainersTest(unittest.TestCase):
                                                       save_model_flag=False,
                                                       metrics=[Metric("F1", mask='test')])
 
-        # TODO Kirill, tmp comment work and tests with Prot
         gin3_lin2_prot_mg_small = model_configs_zoo(
             dataset=dataset_mg_small, model_name='gin_gin_gin_lin_lin_prot')
         gin3_lin1_mg_mutag = model_configs_zoo(
@@ -164,7 +163,6 @@ class ExplainersTest(unittest.TestCase):
             gnn=gin3_lin2_prot_mg_small, dataset_path=results_dataset_path_mg_small,
             # manager_config=gin3_lin2_mg_small_manager_config,
         )
-        # TODO Misha use as training params: clst=clst, sep=sep, save_thrsh=save_thrsh, lr=lr
 
         best_acc = self.prot_gnn_mm_mg_small.train_model(
             gen_dataset=gen_dataset_mg_small, steps=100, metrics=[])
@@ -181,7 +179,6 @@ class ExplainersTest(unittest.TestCase):
             metrics=[Metric("F1", mask='test')])
 
     def test_PGE_SG(self):
-        # FIXME not working with another tests
         warnings.warn("Start PGExplainer(dig)")
         explainer_init_config = ConfigPattern(
             _class_name="PGExplainer(dig)",

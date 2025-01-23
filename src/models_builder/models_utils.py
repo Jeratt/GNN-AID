@@ -43,7 +43,6 @@ def apply_message_gradient_capture(
 def apply_decorator_to_graph_layers(
         model: Any
 ) -> None:
-    # TODO Kirill add more options
     """
     Example how use this def
     apply_decorator_to_graph_layers(gnn)

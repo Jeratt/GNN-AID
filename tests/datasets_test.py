@@ -87,7 +87,7 @@ class DatasetsTest(unittest.TestCase):
         from torch_geometric.data import Data
 
         def from_dgl(g, label):
-            """ Converter from DGL graph by Misha S.
+            """ Converter from DGL graph
             """
             x = g.nodes[0].data['feat']
             for i in range(1, g.nodes().size(0)):
@@ -414,7 +414,6 @@ class DatasetsTest(unittest.TestCase):
             sorted_edges1 = torch.sort(true_ptg_data.edge_index, dim=1)[0]
             sorted_edges2 = torch.sort(ptg_data.edge_index, dim=1)[0]
             self.assertTrue(torch.equal(sorted_edges1, sorted_edges2))
-            # FIXME add it later when edge features are ready
             # self.assertTrue(torch.equal(true_ptg_data.edge_attr, ptg_data.edge_attr))
 
     def test_ptg_lib(self):

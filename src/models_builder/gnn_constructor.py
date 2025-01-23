@@ -138,7 +138,6 @@ class GNNConstructor:
     ) -> dict:
         """ Get available info about model for frontend
         """
-        # FIXMe architecture and weights can be not accessible
         result = {}
         try:
             result["architecture"] = self.get_architecture()
@@ -526,7 +525,6 @@ class FrameworkGNNConstructor(
                 else:
                     x = torch.cat((x_copy, connection_tensor), dim_cat)
 
-            # QUE Kirill, maybe we should not off UserWarning
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", category=UserWarning)
                 # mid = x

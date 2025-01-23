@@ -139,7 +139,6 @@ function blockDiv($div, on, cursor="notAllowed") {
         _blockCounter = 0
     _blockCounter += on ? 1 : -1
     if (_blockCounter < 0 && !on) {
-        // fixme this occurs when e.g. mload accept is pressed (1 block) and then mc & mload call
         //  onSubmit which leads to 2 unblocks
         console.error('too many unblocks!')
         return
@@ -150,7 +149,6 @@ function blockDiv($div, on, cursor="notAllowed") {
     if (_blockCounter > 0) {
         $div.addClass("disabled")
         $div.addClass(cursor)
-        // FIXME all children recursively ?
         $div.find('*').onkeydown = (e) => {
             if (e.keyCode !== 9) {
                 e.returnValue = false

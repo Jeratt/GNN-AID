@@ -163,7 +163,7 @@ class PrefixStorage {
         })
     }
 
-    // dropCascadeMenu(menuPrefix) { // FIXME do we use it?
+    // dropCascadeMenu(menuPrefix) {
     //     let keysNoSpaces = []
     //
     //     // Create selectors according to the keys

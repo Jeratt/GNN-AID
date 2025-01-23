@@ -36,7 +36,6 @@ class PanelModelArchView extends PanelView {
     onSubmit(block, data) {
         super.onSubmit(block, data)
         if (block === "mconstr" || block === "mload" || block === "mcustom") {
-            // FIXME for mcust weights and architecture can be unknown
             this.modelStructureConfig = data["architecture"]["layers"]
             this.modelWeights = data["weights"]
             this._init()
@@ -89,7 +88,6 @@ class PanelModelArchView extends PanelView {
         if (this.modelStructureConfig == null || Object.keys(this.modelStructureConfig).length === 0) {
             this.$body.html("Not available")
             this._collapse(true)
-            // FIXME what if we know weights but not structure ?
             return
         }
 

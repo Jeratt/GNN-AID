@@ -134,7 +134,6 @@ class GNNModelManager:
                 _config_class="ModelManagerConfig",
                 _config_kwargs=manager_config.to_saveable_dict(),
             )
-        # TODO Kirill, write raise Exception
         # else:
         #     raise Exception()
 
@@ -148,14 +147,12 @@ class GNNModelManager:
                 _config_class="ModelModificationConfig",
                 _config_kwargs=modification.to_dict(),
             )
-        # TODO Kirill, write raise Exception
         # else:
         #     raise Exception()
 
         self.manager_config = manager_config
         self.modification = modification
 
-        # QUE Kirill do we need to store it? maybe pass when need to
         self.dataset_path = None
         self.mi_defender = None
         self.mi_defense_name = None
@@ -237,7 +234,6 @@ class GNNModelManager:
             self
     ) -> str:
         manager_name = self.manager_config.to_saveable_dict()
-        # FIXME Kirill, make ModelManagerConfig and remove manager_name[CONFIG_CLASS_NAME]
         manager_name[CONFIG_CLASS_NAME] = self.__class__.__name__
         # for key, value in kwargs.items():
         #     manager_name[key] = value
@@ -305,7 +301,6 @@ class GNNModelManager:
         else:
             model_dir_path = path
 
-        # TODO Kirill, check default parameters in gnn
         self.load_model(path=path, **kwargs)
         self.gnn.eval()
         return model_dir_path
@@ -834,7 +829,6 @@ class FrameworkGNNModelManager(GNNModelManager):
         :param kwargs: kwargs for GNNModelManager
         """
 
-        # TODO Kirill, add train_test_split in default parameters gnnMM
         super().__init__(**kwargs)
         # Fulfill absent fields from default configs
         with open(FRAMEWORK_PARAMETERS_PATH, 'r') as f:
@@ -874,7 +868,6 @@ class FrameworkGNNModelManager(GNNModelManager):
         if self.gnn is None:
             raise Exception("FrameworkGNNModelManager need GNN, now GNN is None")
 
-        # QUE Kirill, can we make this better
         if "optimizer" in getattr(self.manager_config, CONFIG_OBJ):
             self.optimizer = getattr(self.manager_config, CONFIG_OBJ).optimizer.create_obj(params=self.gnn.parameters())
             # self.optimizer = getattr(self.manager_config, CONFIG_OBJ).optimizer.create_obj()
@@ -919,14 +912,12 @@ class FrameworkGNNModelManager(GNNModelManager):
     ) -> List[Union[float, int]]:
         task_type = gen_dataset.domain()
         if task_type == "single-graph":
-            # FIXME Kirill, add data_x_copy mask
             loader = NeighborLoader(gen_dataset.dataset._data,
                                     num_neighbors=[-1], input_nodes=gen_dataset.train_mask,
                                     batch_size=self.batch, shuffle=True)
         elif task_type == "multiple-graphs":
             train_dataset = gen_dataset.dataset.index_select(gen_dataset.train_mask)
             loader = DataLoader(train_dataset, batch_size=self.batch, shuffle=True)
-        # TODO Kirill, remove False when release edge recommendation task
         elif task_type == "edge" and False:
             loader = LinkNeighborLoader(gen_dataset.dataset._data,
                                         num_neighbors=[-1], input_nodes=gen_dataset.train_mask,
@@ -998,7 +989,6 @@ class FrameworkGNNModelManager(GNNModelManager):
             loss = self.loss_function(logits, batch.y)
             # loss.backward()
             # self.optimizer.step()
-        # TODO Kirill, remove False when release edge recommendation task
         elif task_type == "edge" and False:
             self.optimizer.zero_grad()
             edge_index = batch.edge_index
@@ -1106,7 +1096,6 @@ class FrameworkGNNModelManager(GNNModelManager):
         assert issubclass(type(self), GNNModelManager)
 
         assert mode in ['1_step', 'full', None]
-        # TODO Kirill what is this? Outdated?
         # has_complete = self.train_complete != super(type(self), self).train_complete
         # assert has_complete
         do_1_step = True
@@ -1181,7 +1170,7 @@ class FrameworkGNNModelManager(GNNModelManager):
                     full_out = torch.cat((full_out, out))
                     # y_true = torch.cat((y_true, data.y))
             else:  # single-graph
-                data = gen_dataset.dataset._data  # FIXME what if no data? use .get(0) ?
+                data = gen_dataset.dataset._data
                 ver_ind = [n for n, x in enumerate(mask) if x]
                 mask_size = len(ver_ind)
 
@@ -1211,7 +1200,6 @@ class FrameworkGNNModelManager(GNNModelManager):
 
                     # mask_x_tensot = torch.masked.masked_tensor(data.x, features_mask_tensor_copy)
 
-                    # FIXME Kirill what to do if no optimizer, train_mask_flag, batch?
                     if hasattr(self, 'optimizer'):
                         self.optimizer.zero_grad()
                     # logits_batch = self.gnn(data_x_copy, data.edge_index)
@@ -1431,8 +1419,6 @@ class ProtGNNModelManager(FrameworkGNNModelManager):
         self.warm_epoch = _config_obj.warm_epoch
         self.save_epoch = _config_obj.save_epoch
         self.save_thrsh = _config_obj.save_thrsh
-        # TODO implement other MCTS args too
-        # TODO MCTS args via static ?
         mcts_args.min_atoms = _config_obj.mcts_min_atoms
         mcts_args.max_atoms = _config_obj.mcts_max_atoms
         self.prot_thrsh = _config_obj.prot_thrsh
@@ -1505,7 +1491,6 @@ class ProtGNNModelManager(FrameworkGNNModelManager):
 
             # diversity loss
             ld = 0
-            # TODO expreriments required. With zero coeff - meaningless
             # for k in range(prot_layer.output_dim):
             #     p = prot_layer.prototype_vectors[
             #         k * prot_layer.num_prototypes_per_class:
@@ -1524,7 +1509,6 @@ class ProtGNNModelManager(FrameworkGNNModelManager):
             self.optimizer.zero_grad()
             logits = self.gnn(batch.x, batch.edge_index, batch.batch)
             loss = self.loss_function(logits, batch.y)
-        # TODO Kirill, remove False when release edge recommendation task
         elif task_type == "edge" and False:
             self.optimizer.zero_grad()
             edge_index = batch.edge_index
@@ -1573,7 +1557,6 @@ class ProtGNNModelManager(FrameworkGNNModelManager):
                 p.requires_grad = True
 
     def after_epoch(self, gen_dataset):
-        # TODO compare is_best with different metrics to be implemented
 
         # check if best model
         metrics_values = self.evaluate_model(

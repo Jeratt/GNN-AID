@@ -48,7 +48,6 @@ _key_path = {
 
 
 class GeneralConfig:
-    # TODO Kirill rename, docs
     _mutable = False
     _TECHNICAL_KEYS = {"_class_name", "_class_import_info", "_import_path", "_config_class",
                        "_config_kwargs"}
@@ -134,7 +133,6 @@ class GeneralConfig:
 
         dct = {}
         for key in sorted(kwargs):
-            # FIXME misha check this can be removed
             # if key in [CONFIG_PARAMS_PATH_KEY, CONFIG_SAVE_KWARGS_KEY]:
             #     continue
             value = kwargs[key]
@@ -153,7 +151,6 @@ class GeneralConfig:
                 if isinstance(value, dict):
                     dct[key] = json.dumps(value, separators=(',', ':'), indent=None)
                 else:
-                    # FIXME Misha, what do we do if value is special list or tuple in general
                     dct[key] = str(value)
         return dct
 
@@ -167,7 +164,6 @@ class GeneralConfig:
         for k, v in self.__dict__.items():
             if k not in self._config_keys:
                 continue
-            # FIXME copy of dict, config
             if isinstance(v, Config):
                 v = v.to_dict()
             res[k] = copy.copy(v)
@@ -181,9 +177,7 @@ class GeneralConfig:
         if "_config_kwargs" not in value:
             raise Exception("_config_kwargs can't set automatically")
         if key in _key_path:
-            # TODO Kirill, make this better use info about intersection between keys
             value.update(_key_path[key])
-        # QUE Kirill, maybe need fix
         if "_class_name" not in value:
             value.update({"_class_name": None})
         if "_import_path" not in value:
@@ -267,7 +261,6 @@ class ConfigPattern(
         kwargs = self._config_kwargs
 
         # Pop the first key-value supposing it is a class name
-        # QUE Kirill, fix CONFIG_SAVE_KWARGS_KEY problem, add in _TECHNICAL_KEYS or remove (maybe we can set new confid kwargs after init)
         save_kwargs, init_kwargs = setting_class_default_parameters(
             class_name=self._class_name,
             class_kwargs=kwargs,
@@ -331,7 +324,6 @@ class ConfigPattern(
         else:
             kw = dict(filter(lambda x: x[0] in self._TECHNICAL_KEYS, self.__dict__.items()))
             kw["_config_kwargs"] = getattr(self, CONFIG_OBJ).to_saveable_dict(compact=compact)
-        # BUG Kirill, fix for modification
         if not need_full:
             kw = kw["_config_kwargs"]
         dct = super().to_saveable_dict(compact=compact, **kw)

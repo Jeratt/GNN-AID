@@ -159,7 +159,6 @@ class DistillationDefender(
 class AdvTraining(
     EvasionDefender
 ):
-    # TODO Kirill, rewrite
     name = "AdvTraining"
 
     def __init__(

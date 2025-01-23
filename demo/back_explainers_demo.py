@@ -125,7 +125,6 @@ def explainers_test():
     # explainer_GraphMask.conduct_experiment(ExplainerRunConfig("local"))
 
     # # Explain Computers
-    # FIXME GNNExplainer not working yet, waiting for Misha S fix
     # warnings.warn("Start GNNExplainer(torch-geom)")
     # explainer_GNNExplainer = FrameworkExplainersManager(
     #     explainer_name='GNNExplainer(torch-geom)',

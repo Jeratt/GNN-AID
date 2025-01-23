@@ -21,7 +21,6 @@ def asr(
     return 1 - sklearn.metrics.accuracy_score(y_true=y_predict_clean, y_pred=y_predict_after_attack_only)
 
 
-# TODO Kirill, change for any classic metric
 def aucc_change_attack(
         y_predict_clean: Union[List, torch.Tensor, np.array],
         y_predict_after_attack_only: Union[List, torch.Tensor, np.array],
@@ -44,7 +43,6 @@ def aucc_change_attack(
             sklearn.metrics.accuracy_score(y_true=y_true, y_pred=y_predict_after_attack_only))
 
 
-# TODO Kirill, change for any classic metric
 def aucc_change_defense_only(
         y_predict_clean: Union[List, torch.Tensor, np.array],
         y_predict_after_defense_only: Union[List, torch.Tensor, np.array],
@@ -67,7 +65,6 @@ def aucc_change_defense_only(
             sklearn.metrics.accuracy_score(y_true=y_true, y_pred=y_predict_after_defense_only))
 
 
-# TODO Kirill, change for any classic metric
 def aucc_change_defense_with_attack(
         y_predict_after_attack_only: Union[List, torch.Tensor, np.array],
         y_predict_after_attack_and_defense: Union[List, torch.Tensor, np.array],

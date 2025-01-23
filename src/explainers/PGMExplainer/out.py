@@ -71,12 +71,12 @@ class PGMExplainer(Explainer):
                 pred_threshold=pred_threshold
             ),
             explanation_type='phenomenon',  # Supported only phenomenon explanation type
-            node_mask_type='object',  # TODO is it necessary to be able to set 'object','common_attributes','attributes'
+            node_mask_type='object',
             edge_mask_type=None,  # Generation of edge masks is not supported
             model_config=dict(
                 mode='multiclass_classification',   # Supported only multiclass_classification
                 task_level=task_level,
-                return_type=return_type,  # TODO check different return_type
+                return_type=return_type,
             ),
         )
 
@@ -113,11 +113,6 @@ class PGMExplainer(Explainer):
 
         node_mask = self.raw_explanation.node_mask
         pgm_stats = self.raw_explanation.pgm_stats
-        # FIXME Misha S - paths
-        # np.savetxt('/home/mikhail/Projects/Graph_Node_Classification'
-        #            '/gnn_interpretation/src/explainers/PGMExplainer/node_mask.txt', node_mask.numpy())
-        # np.savetxt('/home/mikhail/Projects/Graph_Node_Classification'
-        #            '/gnn_interpretation/src/explainers/PGMExplainer/pgm_stats.txt', node_mask.numpy())
 
         important_edges = {}
         important_nodes = {}
@@ -138,7 +133,6 @@ class PGMExplainer(Explainer):
             important_edges = {self.graph_idx: important_edges}
             important_nodes = {self.graph_idx: important_nodes}
 
-        # TODO Write functions with output threshold
         self.explanation.add_edges(important_edges)
         self.explanation.add_nodes(important_nodes)
 

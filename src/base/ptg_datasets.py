@@ -96,16 +96,12 @@ class PTGDataset(
         else:
             if is_in_torch_geometric_datasets(dataset_config.full_name()):
                 # Download specific dataset
-                # TODO Kirill, all torch-geometric datasets
                 if dataset_group in ["pytorch-geometric-other"]:
                     dataset_cls = import_by_name(dataset_name, ['torch_geometric.datasets'])
                     if 'root' in str(inspect.signature(dataset_cls.__init__)):
                         self.dataset = dataset_cls(root=str(self.root_dir), **kwargs)
                         self.move_processed(self.root_dir / 'processed')
                     else:
-                        # TODO misha or Kirill have get params,
-                        #  https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.BAShapes.html#torch_geometric.datasets.BAShapes
-                        #  e.g. BAShapes, other/PCPNetDataset etc
                         self.dataset = dataset_cls(**kwargs)
                         if not os.path.exists(self.results_dir):
                             os.makedirs(self.results_dir)
@@ -114,7 +110,6 @@ class PTGDataset(
                 else:
                     dataset_cls = import_by_name(dataset_group, ['torch_geometric.datasets'])
                     self.dataset = dataset_cls(root=self.root_dir.parent, name=dataset_name, **kwargs)
-                    # QUE Kirill, maybe we can do it some other way
                     if dataset_name == 'PROTEINS':
                         torch.save((self.dataset.data, self.dataset.slices), self.dataset.processed_paths[0])
                     if dataset_group in ["GEDDataset"]:
@@ -164,7 +159,6 @@ class PTGDataset(
     ) -> None:
         # assert len(name_type) == 1  # FIXME
         dataset_data = super()._compute_dataset_data()
-        # FIXME add features
 
         return dataset_data
 
@@ -207,7 +201,6 @@ class LocalDataset(
         self.slices = None
         try:
             self.slices = rest_data[0]
-            # TODO can use rest_data[1] ?
         except IndexError:
             pass
 
