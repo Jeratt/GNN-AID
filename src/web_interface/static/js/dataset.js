@@ -43,12 +43,11 @@ class Dataset {
 
     setData(datasetData) {
         // console.log(dataset_data)
-        // TODO extend to set of graphs dataset
         let info = datasetData['info']
         this.domain = info['domain']
         this.name = info['name']
         this.numNodes = info['nodes']
-        this.directed = info['directed'] // TODO parse bool
+        this.directed = info['directed']
         // this.weighted = info['weighted']
         if ('node_attributes' in info) {
             this.attributesNames = info['node_attributes']['names']
@@ -64,7 +63,6 @@ class Dataset {
             this.attributesTypes = []
             this.attributesValues = []
         }
-        // TODO add edge labels
 
         this.labelingClasses = info['labelings']
 
@@ -136,7 +134,6 @@ class Dataset {
     }
 
     getDegree(node, graph) {
-        // TODO
     }
 
     // // Get a statistics of possible attribute values
@@ -154,7 +151,6 @@ class Dataset {
 
     // Get information HTML
     getInfo() {
-        // TODO extend
         // let N = this.numNodes
         // let E = this.numEdges
         let html = ''
@@ -199,7 +195,6 @@ class Dataset {
     }
 
     getNeighborhood(node, graph) {
-        // TODO extend to Multiple
         if (this.isMultipleGraphs()) {
             console.error("Can't get Neighborhood of Multiple Graphs")
             return

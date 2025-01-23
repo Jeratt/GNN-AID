@@ -74,7 +74,6 @@ class MenuModelTrainerView extends MenuView {
     async onsave() {
         let path = await Controller.ajaxRequest('/model', {do: "save"})
         console.log("model saved at", path)
-        // TODO Re-index models storage
     }
 
     // Build buttons for model training process in model menu
@@ -141,7 +140,7 @@ class MenuModelTrainerView extends MenuView {
 
         $cb = $("<div></div>").attr("class", "control-block")
         this.$mainDiv.append($cb)
-        $cb.append($("<label></label>").text("Epochs to train")) // TODO assoc to select ?
+        $cb.append($("<label></label>").text("Epochs to train"))
         this.$epochsInput = $("<input>").attr("type", "number").attr("min", "1")
             .attr("max", "3000").attr("step", "1").attr("value", "10")
         $cb.append(this.$epochsInput)
@@ -195,7 +194,7 @@ class MenuModelTrainerView extends MenuView {
         })
 
         let trainFunc = async ($button, text, mode) => {
-            if (this.training != null) { // stop training - fixme
+            if (this.training != null) {
                 $button.prop("disabled", true)
                 await this.onstop()
                 $button.prop("disabled", false)

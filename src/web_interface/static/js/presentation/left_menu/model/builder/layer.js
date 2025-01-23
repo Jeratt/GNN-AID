@@ -61,7 +61,6 @@ class LayerBlock {
             // Last node layer must have a pooling connection
             this.connections.setAsLast()
 
-        // FIXME add others
         this.$activationSelect.val("LogSoftmax").change()
     }
 
@@ -101,17 +100,14 @@ class LayerBlock {
     }
 
     // copy(absIx, ix) {
-    //     // FIXME not working. do we need it?
     //     let newLayerBlock = new LayerBlock(absIx, ix)
     //     newLayerBlock.build()
     //     newLayerBlock.$typeSelect.val(this.$typeSelect.val()).change()
-    //     // FIXME why copied 2 times ???
     //     if (this.$convSelect)
     //         newLayerBlock.$convSelect.val(this.$convSelect.val()).change()
     //     newLayerBlock.$batchnormSelect.val(this.$batchnormSelect.val()).change()
     //     newLayerBlock.$activationSelect.val(this.$activationSelect.val()).change()
     //     newLayerBlock.$dropoutFlag.val(this.$dropoutFlag.val()).change()
-    //     // TODO add all the rest
     //
     //     return newLayerBlock
     // }
@@ -294,7 +290,6 @@ class LayerBlock {
         }
 
         if (clone) {
-            // TODO implement correctly
             // let $clone = $("<button></button>").css("padding", 0).text("clone")
             // $div.append($clone)
             // $clone.click(() => this.clone())
@@ -375,7 +370,7 @@ class LayerBlock {
 
     constructConfig(inputSize=-1) {
         let config = {
-            'label': {'n': 'n', 'g': 'g', 'gc': 'g'}[this.type], // FIXME replace gc with checker?
+            'label': {'n': 'n', 'g': 'g', 'gc': 'g'}[this.type],
             'layer': {},
         }
         let layer = config['layer']
@@ -421,7 +416,7 @@ class LayerBlock {
             outputSize = c
             // [layer['gin_seq'], outputSize] = this.sequential.constructConfig(inputSize)
             layer['layer_name'] = 'GINConv'
-            layer['layer_kwargs'] = null // TODO
+            layer['layer_kwargs'] = null
         } else
             console.error('Not implemented')
 

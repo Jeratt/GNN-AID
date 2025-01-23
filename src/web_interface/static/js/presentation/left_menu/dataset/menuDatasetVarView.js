@@ -90,7 +90,6 @@ class MenuDatasetVarView extends MenuView {
         $cc.append($("<div></div>").attr("class", "menu-separator"))
 
         $cc.append($("<label></label>").html("<h3>Class labeling</h3>"))
-        // TODO 2 cases
         let labelingClasses = this.datasetInfo["labelings"]
         for (const [labeling, classes] of Object.entries(labelingClasses)) {
             let $cb = $("<div></div>").attr("class", "control-block")
@@ -99,7 +98,6 @@ class MenuDatasetVarView extends MenuView {
             let $input = $("<input>").attr("type", "radio").attr("name", "dataset-variable-labelings").attr("id", id).attr("value", labeling)
             $cb.append($input)
             $cb.append($("<label></label>").text(labeling + ` (${classes} classes)`).attr("for", id))
-            // TODO can do this if graph is small
             // $input.change(() => this.setLabels(labeling))
         }
         this.labeling = Object.keys(labelingClasses)[0]
@@ -112,7 +110,6 @@ class MenuDatasetVarView extends MenuView {
         $cb.append($("<label></label>").text("Attack"))
         this.$attackTypeSelect = $("<select></select>").attr("id", this.idPrefix + "-attack")
         $cb.append(this.$attackTypeSelect)
-        // TODO need possible attack types here
         let attack = "original"
         this.$attackTypeSelect.append($("<option></option>").text(attack))
 
@@ -155,7 +152,7 @@ class MenuDatasetVarView extends MenuView {
             features: features,
             labeling: this.labeling,
             dataset_attack_type: this.$attackTypeSelect.val(),
-            dataset_ver_ind: 0, // TODO check
+            dataset_ver_ind: 0,
         }
         await Controller.blockRequest(this.requestBlock, 'modify', datasetVarConfig)
     }

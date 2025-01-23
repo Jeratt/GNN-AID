@@ -54,7 +54,6 @@ function svgEdge(pos1, pos2, directed, arrow=true) {
     let d = ` M${pos1.x},${pos1.y} A ${rad} ${rad} 0 0 1 ${pos2.x} ${pos2.y}`
     if (arrow) {
         // Arrow
-        // TODO use approx?
         let p = Vec.sub(pos2, pos1).mul(0.5)
         let p_len = p.abs()
         if (p_len === 0) // Points coincide

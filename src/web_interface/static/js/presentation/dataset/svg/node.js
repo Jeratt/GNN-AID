@@ -95,9 +95,7 @@ class SvgNode extends SvgElement {
     // // Add node attributes values
     // setAttributes(attributesTypes, values) {
     //     let r = this._scaledRadius()
-    //     let size = 0.8*r // TODO 0.8 magic constant
     //     for (let i=0; i<values.length; i++) {
-    //         // TODO create upper limit
     //         if (i >= 10) break
     //         let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect")
     //         let x = this._leftX(i, r)
@@ -128,7 +126,6 @@ class SvgNode extends SvgElement {
     //                 break
     //
     //             case "other":
-    //                 // TODO what can we show ?
     //                 break
     //         }
     //         rect.setAttribute('fill', color)

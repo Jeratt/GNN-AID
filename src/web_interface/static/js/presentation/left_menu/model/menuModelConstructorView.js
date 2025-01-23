@@ -63,7 +63,7 @@ class MenuModelConstructorView extends MenuView {
         this.absLayersCounter = 0
         this.nodeLayerBlocks = new BiList()
         this.graphLayerBlocks = new BiList()
-        this.customGraphLayerBlock = null // TODO can we have a lot of them ?
+        this.customGraphLayerBlock = null
 
         // First node layer block is obligate
         let layerBlock = new LayerBlock('n', this.absLayersCounter, 0)
@@ -136,7 +136,7 @@ class MenuModelConstructorView extends MenuView {
                 $customGraphLayerBlockDiv.append(layerBlock.$div)
                 await layerBlock.build(this.nodeLayerBlocks.length, this.graphLayerBlocks.length)
                 this.customGraphLayerBlock = layerBlock
-                this.updConnections() // fixme not sure we need
+                this.updConnections()
                 $customGraphLayerButtonDiv.hide()
             })
         }
@@ -230,14 +230,12 @@ class MenuModelConstructorView extends MenuView {
                 this.customGraphLayerBlock.setAsLast()
                 let done = this.customGraphLayerBlock.setOutputSize(this.num_classes)
                 if (!done)
-                    // TODO setOutputSize for previous layers
                     console.error('Not implemented')
             }
             else {
                 this.graphLayerBlocks.last().setAsLast()
                 let done = this.graphLayerBlocks.last().setOutputSize(this.num_classes)
                 if (!done)
-                    // TODO setOutputSize for previous layers
                     console.error('Not implemented')
             }
             this.nodeLayerBlocks.last().setAsLast()

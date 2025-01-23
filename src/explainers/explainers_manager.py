@@ -8,7 +8,6 @@ from aux.declaration import Declare
 from aux.utils import EXPLAINERS_INIT_PARAMETERS_PATH
 from explainers.explainer import Explainer, ProgressBar
 
-# TODO misha can we do it not manually?
 # Need to import all modules with subclasses of Explainer, otherwise python can't see them
 
 for pack in [
@@ -132,7 +131,6 @@ class FrameworkExplainersManager:
         return explanation
 
     def explanation_result_path(self, run_config):
-        # TODO pass configs
         self.explainer_result_file_path, self.files_paths = Declare.explanation_file_path(
             models_path=self.gnn_model_path,
             explainer_name=self.explainer_name,
@@ -164,7 +162,6 @@ class FrameworkExplainersManager:
                     "explanation_data": result
                 })
 
-            # TODO what if save_explanation_flag=False?
             if self.save_explanation_flag:
                 self.save_explanation(run_config)
                 self.model_manager.save_model_executor()

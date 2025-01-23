@@ -121,7 +121,6 @@ class RadialNeighborhoodLayout extends Layout {
         }
         this.iteration += 1
 
-        // TODO this is needed only by request when draw
         this.computePositions()
     }
 

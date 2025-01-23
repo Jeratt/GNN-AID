@@ -5,7 +5,6 @@ class Explanation {
     }
 
     reduce(graph) {
-        // TODO
     }
 
     // Explanation information to show on the panel

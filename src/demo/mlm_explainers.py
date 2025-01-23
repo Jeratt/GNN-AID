@@ -10,10 +10,7 @@ def subgraphx():
     from dig.xgraph.method.subgraphx import find_closest_node_result
 
     from dig.xgraph.method.shapley import MarginalSubgraphDataset
-    # FIXME Monkey Patch for SubgraphX until DIG library doesn't support torch-geometric 2.3.1
-    # PATCH BEGIN
-    MarginalSubgraphDataset.__abstractmethods__ = frozenset()
-    # PATCH END
+    MarginalSubgraphDataset.__abstractmethods__ = frozenset()  # tmp patch - check new lib ver
 
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 

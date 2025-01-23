@@ -46,7 +46,7 @@ class ExplainerLoadBlock(Block):
         # return self.get_index()
 
     def _finalize(self):
-        # if 1:  # TODO better check
+        # if 1:
         #     return False
 
         self.explainer_path = self._config
@@ -86,7 +86,6 @@ class ExplainerLoadBlock(Block):
         index, self.info = DataInfo.explainers_parse()
 
         ps = index.filter(dict(zip(keys_list, values_info)))
-        # return [ps.to_json(), json_dumps(self.info)] FIXME misha parsing error on front
         return [ps.to_json(), '{}']
 
     def _explainer_kwargs(self, model_path, explainer_path):
@@ -114,7 +113,7 @@ class ExplainerInitBlock(Block):
         return FrameworkExplainersManager.available_explainers(self.gen_dataset, self.gmm)
 
     def _finalize(self):
-        # if 1:  # TODO better check
+        # if 1:
         #     return False
 
         # self.explainer_init_config = ExplainerInitConfig(**self._config)
@@ -148,11 +147,10 @@ class ExplainerRunBlock(Block):
                 self.explainer_manager.explainer.name]
 
     def _finalize(self):
-        # if 1:  # TODO better check
         #     return False
         raise NotImplementedError
 
-        # self.explainer_run_config = ExplainerRunConfig(**self._config)  # FIXME add class_name
+        # self.explainer_run_config = ExplainerRunConfig(**self._config)
         import copy
         config = copy.deepcopy(self._config)
         config['_config_kwargs']['kwargs']["_import_path"] = EXPLAINERS_LOCAL_RUN_PARAMETERS_PATH
@@ -206,7 +204,7 @@ class ExplainerRunBlock(Block):
             return ''
 
         elif do == "stop":
-            # BACK_FRONT.model_manager.stop_signal = True  # TODO misha remove stop_signal
+            # BACK_FRONT.model_manager.stop_signal = True
             self._stop_explainer()
             return ''
 
@@ -240,7 +238,6 @@ class ExplainerRunBlock(Block):
 
     def _stop_explainer(self):
         raise NotImplementedError
-        # FIXME not implemented
         print('stop explainer')
         if self.explainer_subprocess and self.explainer_subprocess.is_alive():
             self.explainer_subprocess.terminate()
@@ -248,5 +245,4 @@ class ExplainerRunBlock(Block):
             self.explanation_data = None
 
     def _save_explainer(self):
-        # self.explainer.save_explanation() TODO is it necessary?
         return str(self.explainer_manager.explainer_result_file_path)

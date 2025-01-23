@@ -170,7 +170,7 @@ class Connections {
         for (const [i, $nodeCheck] of Object.entries(this.nodeChecks)) {
             if ($nodeCheck.is(':checked')) {
                 let aggr = this.aggrSelects[i].val()
-                if (aggr === 'cat') // TODO what else?
+                if (aggr === 'cat')
                     additionalNodeIxes.push(i)
                 config.push({
                     'into_layer': parseInt(i),
@@ -184,7 +184,7 @@ class Connections {
         for (const [i, $graphCheck] of Object.entries(this.graphChecks)) {
             if ($graphCheck.is(':checked')) {
                 let aggr = this.aggrSelects[i].val()
-                if (aggr === 'cat') // TODO what else?
+                if (aggr === 'cat')
                     additionalGraphIxes.push(i)
                 config.push({
                     'into_layer': parseInt(i) + this.nodeCount,

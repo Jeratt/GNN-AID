@@ -218,7 +218,7 @@ class VisualsView extends View {
                 .attr("id", this.idPrefix + '-' + id)
             $label.append($input)
             $input.change((e) => this._update(id, $input.is(':checked')))
-            $label.hide() // fixme how to show beautifully ?
+            $label.hide()
         }
     }
 
@@ -255,7 +255,6 @@ class VisualsView extends View {
             .addClass(this.idPrefix + '-class').addClass('var')
         this.$div.append(this.$satellitesDiv)
         this.$satellitesDiv.append($("<div></div>").attr("class", "menu-separator"))
-        // TODO use satellites list
 
         this.satellitesIds = {}
         for (const satellite of VisibleGraph.SATELLITES) {
@@ -427,7 +426,6 @@ class VisualsView extends View {
                 this._getByClass('single', true).show()
             }
 
-            // Set initial config - TODO extend
             let initConfig = [
                 // [this.showModeId, 'whole-graph'],
                 [this.showModeId, 'neighborhood'],

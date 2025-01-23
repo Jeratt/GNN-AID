@@ -101,7 +101,6 @@ class PrefixStorage {
         }
 
         // Fill options of the main selector
-        // TODO can we add it to cycle below?
         let g = this.selects[0]
         g.empty()
         g.append($("<option></option>").attr("selected", "true").attr("value", "")
@@ -163,7 +162,7 @@ class PrefixStorage {
         })
     }
 
-    // dropCascadeMenu(menuPrefix) { // FIXME do we use it?
+    // dropCascadeMenu(menuPrefix) {
     //     let keysNoSpaces = []
     //
     //     // Create selectors according to the keys

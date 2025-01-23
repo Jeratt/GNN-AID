@@ -43,7 +43,7 @@ class ModelLoadBlock(Block):
         return self.get_index()
 
     def _finalize(self):
-        if not (len(self._config.keys()) == 5):  # TODO better check
+        if not (len(self._config.keys()) == 5):
             return False
 
         self.model_path = self._config
@@ -78,7 +78,6 @@ class ModelLoadBlock(Block):
 
     def _load_train_test_mask(self, path):
         """ Load train/test mask associated to the model and send to frontend """
-        # FIXME self.manager_config.train_test_split
         self.gen_dataset.train_mask, self.gen_dataset.val_mask, \
         self.gen_dataset.test_mask, train_test_split = torch.load(path)[:]
         send_train_test_mask(self.gen_dataset, self.socket)
@@ -95,7 +94,6 @@ class ModelConstructorBlock(Block):
         return [ptg_dataset.num_node_features, ptg_dataset.num_classes, gen_dataset.is_multi()]
 
     def _finalize(self):
-        # TODO better check
         if not ('layers' in self._config and isinstance(self._config['layers'], list)):
             return False
 
@@ -119,14 +117,13 @@ class ModelCustomBlock(Block):
         return self.get_index()
 
     def _finalize(self):
-        if not (len(self._config.keys()) == 2):  # TODO better check
+        if not (len(self._config.keys()) == 2):
             return False
 
         self.model_name = self._config
         return True
 
     def _submit(self):
-        # FIXME misha this is bad way
         user_models_obj_dict_info = UserCodeInfo.user_models_list_ref()
         cm_path = None
 
@@ -151,7 +148,6 @@ class ModelCustomBlock(Block):
                 ps.add([key, value])
         index = ps
 
-        # FIXME apply dataset filter
         # cfg = self.gen_dataset.dataset_config.to_saveable_dict()
         # cfg.update(self.gen_dataset.dataset_var_config.to_saveable_dict())
         # ps = index.filter(cfg)
@@ -172,13 +168,13 @@ class ModelManagerBlock(Block):
 
         mm_set = self.gnn.suitable_model_managers()
         # mm_set.add("_DummyModelManager")
-        if len(mm_set) == 0:  # FIXME is it ik for custom model?
+        if len(mm_set) == 0:
             mm_set.add("FrameworkGNNModelManager")
         mm_info = model_managers_info_by_names_list(mm_set)
         return mm_info
 
     def _finalize(self):
-        # if 1:  # TODO better check
+        # if 1:
         #     return False
 
         self.klass = self._config.pop("class")
@@ -226,7 +222,6 @@ class ModelManagerBlock(Block):
 
         res = {}
         res.update(send_train_test_mask(self.gen_dataset, None, visible_part))
-        # TODO duplicste code
         if self._object.stats_data is not None:
             stats_data = {k: visible_part.filter(v)
                           for k, v in self._object.stats_data.items()}
@@ -269,7 +264,6 @@ class ModelTrainerBlock(Block):
         return self.model_manager.get_model_data()
 
     def _finalize(self):
-        # TODO for ProtGNN model must be trained
 
         return True
 
@@ -294,7 +288,7 @@ class ModelTrainerBlock(Block):
             return ''
 
         elif do == "stop":
-            # BACK_FRONT.model_manager.stop_signal = True  # TODO remove stop_signal
+            # BACK_FRONT.model_manager.stop_signal = True
             self.stop_model()
             return ''
 
@@ -323,7 +317,6 @@ class ModelTrainerBlock(Block):
 
     def _run_model(self, metrics):
         """ Runs model to compute predictions and logits """
-        # TODO add set of nodes
         assert self.model_manager
         from models_builder.gnn_models import Metric
         self._check_metrics(metrics)
@@ -368,7 +361,6 @@ class ModelTrainerBlock(Block):
         path = self.model_manager.save_model_executor()
         self.gen_dataset.save_train_test_mask(path)
         DataInfo.refresh_models_dir_structure()
-        # TODO send dir_structure info to front
         return str(path)
 
     def _check_metrics(self, metrics):

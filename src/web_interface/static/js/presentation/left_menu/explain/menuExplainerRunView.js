@@ -106,8 +106,8 @@ class MenuExplainerRunView extends MenuView {
         //         ? this.paramsLocalRunBuilder.kwArgs : this.paramsGlobalRunBuilder.kwArgs),
         // }
 
-        // self.explainerInfoPanel.explainer.update(null, self.explainerRunConfig) // FIXME
-        // if (self.explanation) // Drop current local explanation // FIXME
+        // self.explainerInfoPanel.explainer.update(null, self.explainerRunConfig)
+        // if (self.explanation) // Drop current local explanation
         this.visibleGraph.dropExplanation()
         let $btn = mode === "local" ? this.$runLocal : this.$runGlobal
         $btn.prop("disabled", true)
@@ -116,7 +116,6 @@ class MenuExplainerRunView extends MenuView {
         $btn.prop("disabled", false)
     }
     async onstop(mode) {
-        // TODO
         await $.ajax({
             type: 'POST',
             url: '/explainer',
@@ -124,7 +123,6 @@ class MenuExplainerRunView extends MenuView {
         })
     }
     // async onsave() {
-    //     // TODO
     //     await $.ajax({
     //         type: 'POST',
     //         url: '/explainer',
@@ -166,7 +164,7 @@ class MenuExplainerRunView extends MenuView {
 
         // $cb = $("<div></div>").attr("class", "control-block")
         // $cc.append($cb)
-        // $cb.append($("<label></label>").text("version")) // TODO assoc to select ?
+        // $cb.append($("<label></label>").text("version"))
         // this.$explainVersionInput = $("<input>").attr("type", "number").attr("min", "0")
         //     .attr("step", "1").attr("value", "0")
         // $cb.append(this.$explainVersionInput)
@@ -213,7 +211,6 @@ class MenuExplainerRunView extends MenuView {
                 this.globalRunning = true
                 this.globalProgressBar.start()
                 await this.onrun("global")
-                // Nothing is called after since it can fail - FIXME move to ...?
                 blockDiv(this.$globalRunParamsConstructorDiv, false)
                 this.$runGlobal.text("Run")
                 this.globalRunning = false
@@ -251,7 +248,6 @@ class MenuExplainerRunView extends MenuView {
                 this.localRunning = true
                 this.localProgressBar.start()
                 await this.onrun("local")
-                // fixme - Nothing is called after since it can fail
                 blockDiv(this.$localRunParamsConstructorDiv, false)
                 this.$runLocal.text("Run")
                 this.localRunning = false

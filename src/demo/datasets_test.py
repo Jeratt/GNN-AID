@@ -79,8 +79,6 @@ class DatasetsTest(unittest.TestCase):
         from torch_geometric.data import Data
 
         def from_dgl(g, label):
-            """ Converter from DGL graph by Misha S.
-            """
             x = g.nodes[0].data['feat']
             for i in range(1, g.nodes().size(0)):
                 x_i = g.nodes[i].data['feat']

@@ -187,10 +187,9 @@ class ParamsBuilder {
             else
                 console.error("Type not supported", type)
 
-            // TODO use tip
             // $input.attr("id", id)
             this.kwArgs[name] = def
-            // $input.change(() => this.kwArgs[name] = $input.val()) // TODO parse int ot bool?
+            // $input.change(() => this.kwArgs[name] = $input.val())
             $cb.append($input)
         }
 

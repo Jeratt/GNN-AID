@@ -128,7 +128,6 @@ class PanelDatasetView extends PanelView {
 
     // Get information HTML
     getInfo() {
-        // TODO extend
         // let N = this.numNodes
         // let E = this.numEdges
         let html = ''

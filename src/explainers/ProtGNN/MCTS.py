@@ -164,7 +164,6 @@ def gnn_prot_score(coalition, data, gnnNet, prototype):
     mask_data = Data(x=ret_x, edge_index=ret_edge_index)
     mask_data = Batch.from_data_list([mask_data])
     # mask_data = mask_data.to(gnnNet.device)
-    # TODO Kirill, make this better
     emb = gnnNet.get_all_layer_embeddings(data=mask_data, protgnn_plus=False)[
         int(gnnNet.prot_layer_name.split('_')[1]) - 1]
     distance = torch.norm(emb-prototype)**2

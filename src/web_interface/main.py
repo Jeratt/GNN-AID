@@ -59,7 +59,6 @@ def dataset():
         if part:
             part = json_loads(part)
 
-        # # FIXME tmp
         #
         # from web_interface.back_front.communication import SocketConnect, WebInterfaceError
         # socket = SocketConnect(socket=socketio)
@@ -150,15 +149,12 @@ def explainer():
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
 
-    # TODO think about multiple instances of a client
 
-    # TODO switch to 'run' in production
     #  In production mode the eventlet web server is used if available,
     #  else the gevent web server is used. If eventlet and gevent are not installed,
     #  the Werkzeug development web server is used.
     # app.run(debug=True, port=4568)
 
-    # TODO Flask development web server is used, use eventlet or gevent,
     #  see https://flask-socketio.readthedocs.io/en/latest/deployment.html
     socketio.run(app, host='0.0.0.0', debug=True, port=4567,
                  allow_unsafe_werkzeug=True)

@@ -73,7 +73,7 @@ class SocketConnect:
         if tag not in self.tag_queue:
             self.tag_queue[tag] = Queue()
         print('push', tag, self.obj_id, obligate)
-        self.tag_queue[tag].push(data, self.obj_id, obligate)  # FIXME tmp
+        self.tag_queue[tag].push(data, self.obj_id, obligate)
         self.obj_id += 1
 
         if not self.active:

@@ -31,7 +31,7 @@ neuron_concepts = model_mutag.concept_search('MUTAG', train_dataset, depth=2, to
 # model_mutag = train_standard_model('MUTAGENICITY', 'GIN', fold=0)
 # neuron_concepts = model_mutag.concept_search('MUTAGENICITY', train_dataset, depth=2, top=64, augment=False, level=1)
 
-cleaned_concepts, distilled = clean_concepts(neuron_concepts)  # QUE What is distilled ? ? ?
+cleaned_concepts, distilled = clean_concepts(neuron_concepts)
 
 units = [22, 0, 50]
 graphs = [11, 61, 151]

@@ -26,7 +26,6 @@ class TabView extends MenuView {
 
         for (const view of this.views) {
             view.unlock = async (toDefault) => {
-                // TODO can we simplify // just a copy
                 // console.log(this.constructor.name + "[" + this.requestBlock + "].unlock()")
                 if (view.state === MVState.LOCKED) {
                     // NOTE state will become ACTIVE at onUnlock()

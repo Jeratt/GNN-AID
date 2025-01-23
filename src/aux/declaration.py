@@ -110,7 +110,6 @@ class Declare:
         path, files_paths = Declare.dataset_root_dir(dataset_config)
 
         # Find minimal free version if not specified
-        # QUE Kirill, maybe we can make it better
         if dataset_var_config["dataset_ver_ind"] is None:
             ix = 0
             while True:
@@ -148,7 +147,6 @@ class Declare:
         ]
         # print(class_obj.modification.to_saveable_dict(compact=True, need_full=False))
 
-        # QUE Kirill, maybe we can make it better
         if model_ver_ind_none_flag:
             ix = 0
             while True:
@@ -235,7 +233,6 @@ class Declare:
             "explainer_ver_ind": str(explainer_ver_ind),
         }
 
-        # QUE Kirill, maybe we can make it better
         if explainer_ver_ind is None:
             ix = 0
             while True:

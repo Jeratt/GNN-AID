@@ -77,7 +77,6 @@ class MenuExplainerInitView extends MenuView {
 
         // $cb = $("<div></div>").attr("class", "control-block")
         // $cc.append($cb)
-        // $cb.append($("<label></label>").text("version")) // TODO assoc to select ?
         // this.$explainVersionInput = $("<input>").attr("type", "number").attr("min", "0")
         //     .attr("step", "1").attr("value", "0")
         // $cb.append(this.$explainVersionInput)

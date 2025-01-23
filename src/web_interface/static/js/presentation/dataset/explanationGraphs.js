@@ -10,7 +10,6 @@ class ExplanationGraphs extends MultipleGraphs {
     }
 
     handleDragging () {
-        // TODO add zoom possibility later
         // // Handle zoom
         // this.element.onwheel = (e) => {
         //     if (e.ctrlKey) {

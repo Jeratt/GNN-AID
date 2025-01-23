@@ -176,8 +176,6 @@ class OperationalGraph:
         mess_id = module_id + '_mess'
         self.add_edge(str(id(edge_index)), mess_id)
 
-        # output == agg.output ? FIXME Misha
-
     def hook(self, module, input, output):
         module_id = str(id(module))
         operation = module_id + '_' + str(module)
@@ -295,107 +293,6 @@ class OperationalGraph:
                 to_remove.add(_id)
         for _id in to_remove:
             del self.ops[_id]
-
-    # def light_graph(self):
-    #     """
-    #
-    #     """
-    #     res = {
-    #         "X": None,
-    #         "M": [],
-    #         "Agg": [],
-    #         "Act": [],
-    #     }
-    #
-    #     name_node = {nt.name: nt for nt in self.tensors.values()}
-    #     name_op = {nop.name: nop for nop in self.ops.values()}
-    #
-    #     # Light graph
-    #     tensors = []
-    #     ops = []
-    #     edges = []
-    #
-    #     # Get X
-    #     for name, node in name_node.items():
-    #         if "INPUT FEATURES" in name:
-    #             res["X"] = node.t
-    #             tensors.append(node)
-    #             break
-    #
-    #     # Get messages
-    #     for name, op in name_op.items():
-    #         if name == "~mess":
-    #             _id = op.id
-    #             ops.append(op)
-    #             ins = self.in_edges[_id]
-    #             m_in = None
-    #             for node_id in ins:
-    #                 node = self.tensors[node_id]
-    #                 if node.name == "message.x_j":
-    #                     m_in = node.t
-    #                     tensors.append(node)
-    #                     edges.append((node, op))
-    #                     break
-    #             assert m_in is not None
-    #
-    #             outs = self.out_edges[_id]
-    #             assert len(outs) == 1
-    #             out = self.tensors[list(outs)[0]]
-    #             m_out = out.t
-    #             tensors.append(out)
-    #             edges.append((op, out))
-    #
-    #             res["M"].append((m_in, m_out))
-    #
-    #     # Get aggregations
-    #     for name, op in name_op.items():
-    #         if name == "~aggr":
-    #             _id = op.id
-    #             ops.append(op)
-    #             ins = self.in_edges[_id]
-    #             assert len(ins) == 1
-    #             _in = self.tensors[list(ins)[0]]
-    #             agg_in = _in.t
-    #             tensors.append(_in)
-    #             edges.append((_in, op))
-    #
-    #             outs = self.out_edges[_id]
-    #             assert len(outs) == 1
-    #             out = self.tensors[list(outs)[0]]
-    #             agg_out = out.t
-    #             tensors.append(out)
-    #             edges.append((op, out))
-    #
-    #             res["Agg"].append((agg_in, agg_out))
-    #
-    #     # Get activations
-    #     for name, op in name_op.items():
-    #         if name == "~activation":
-    #             _id = op.id
-    #             ops.append(op)
-    #             ins = self.in_edges[_id]
-    #             assert len(ins) == 1
-    #             _in = self.tensors[list(ins)[0]]
-    #             agg_in = _in.t
-    #             tensors.append(_in)
-    #             edges.append((_in, op))
-    #
-    #             outs = self.out_edges[_id]
-    #             assert len(outs) == 1
-    #             out = self.tensors[list(outs)[0]]
-    #             agg_out = out.t
-    #             tensors.append(out)
-    #             edges.append((op, out))
-    #
-    #             res["Act"].append((agg_in, agg_out))
-    #
-    #     # Add model params
-    #     # TODO Misha
-    #
-    #     tensors = {t.id: t for t in tensors}
-    #     ops = {t.id: t for t in ops}
-    #     edges = {(x.id, y.id): {} for x, y in edges}
-    #     self.render_graph(tensors, ops, edges)
 
     def render_graph(self, tensors=None, ops=None, edges=None):
         tensor_attr = dict(

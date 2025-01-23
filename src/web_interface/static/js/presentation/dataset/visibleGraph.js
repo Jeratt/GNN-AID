@@ -93,7 +93,6 @@ class VisibleGraph {
         this.datasetVar = null // Satellites, is set later, don't edit - it is changed from outside
         this.nodePrimitives = null // {node -> primitive} on HTML element
         this.edgePrimitivesBatches = null // {key -> list of SVGs} - path for a batch of edges on HTML element
-        // External parameters - TODO must be assigned when switch view neighborhood/graph
         this.labeling = null // which labeling is chosen
         this.oneHotableFeature = null // whether feature is be 1-hot encoded
         this.coloredNodes = null // {class -> node fill color}
@@ -176,7 +175,6 @@ class VisibleGraph {
         }
 
         // Handle zoom
-        // TODO move to SvgPanel
         this.svgElement.onwheel = (e) => {
             if (e.ctrlKey) {
                 e.preventDefault()
@@ -532,7 +530,6 @@ class VisibleGraph {
 
     // Adjust SVG viewBox, visible view and scroll according to elements positions on SVG
     adjustVisibleArea() {
-        // TODO move this to SvgPanel
         let t = performance.now()
         let parent = this.svgElement.parentElement
 
@@ -550,7 +547,7 @@ class VisibleGraph {
         let dx = parseInt(this.svgElement.style.borderLeftWidth) + parseInt(this.svgElement.style.borderRightWidth) || 0
         let dy = parseInt(this.svgElement.style.borderBottomWidth) + parseInt(this.svgElement.style.borderTopWidth) || 0
         this.svgElement.style.width = `${w-dx}px`
-        this.svgElement.style.height = `${h-4-dy}px` // TODO what is the magic number: 4px ? Check other browsers
+        this.svgElement.style.height = `${h-4-dy}px`
 
         // Set scroll after SVG resize
         parent.scrollLeft = Math.max(0, this.screenPos.x - this.svgPos.x)
@@ -585,7 +582,7 @@ class VisibleGraph {
         // Explanation edges
         if (this.explanation)
             for (const [edge, svg] of Object.entries(this.explanationEdges)) {
-                let [i, j] = edge.split(',') // TODO simplify: parse at explanation init
+                let [i, j] = edge.split(',')
                 i = parseInt(i)
                 j = parseInt(j)
                 if (i in pos && j in pos) { // Only edges that can be visible
@@ -610,11 +607,9 @@ class VisibleGraph {
         this.explanationEdges = {}
         if (this.explanation.edges)
             for (const [edge, value] of Object.entries(this.explanation.edges)) {
-                // TODO create threshold from interface
                 let thr = EXPLANATION_EDGE_IMPORTANCE_THRESHOLD
                 if (value < thr) continue
                 let color = valueToColor(value, this.explanation.colormap)
-                // TODO how to determine width by edge ?
                 let svg = new SvgEdge(0, 0, 0, 0, color, this.edgeExplainedStrokeWidth,
                     this.explanation.isDirected(),true)
                 this.explanationEdges[edge] = svg
@@ -633,7 +628,6 @@ class VisibleGraph {
     dropExplanation() {
         if (!this.explanation) return
         console.log('VisibleGraph.dropExplanation')
-        // TODO re-use drawExplanation
         let $g = this.svgPanel.get("explanation-edges")
         $g.empty()
         if (this.explanation.nodes)
@@ -644,7 +638,7 @@ class VisibleGraph {
         this.explanationEdges = null
     }
 
-    showClassAsColor(show) {// TODO unite in subclasses     dropClassAsColor()
+    showClassAsColor(show) {
         // console.log('showClassAsColor', show)
         if (show) {
             if (this.coloredNodes && this.datasetVar['labels'])

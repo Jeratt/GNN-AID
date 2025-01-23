@@ -132,9 +132,8 @@ class MenuView extends View {
         $accept.click(async () => {
             if (this.state === MVState.LOCKED) {
                 console.log('pressed Edit')
-                // TODO Lock all
                 blockLeftMenu(true)
-                await this.unlock() // TODO param can be added
+                await this.unlock()
                 // Unlock all after onUnlock
                 $accept.text('Accept')
             }

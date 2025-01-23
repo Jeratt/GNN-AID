@@ -18,8 +18,6 @@ from aux.utils import import_by_name
 
 class NeuralAnalysisExplainer(Explainer):
 
-    # TODO model.n_layers - layer can be reworked with _check_model_structure
-
     name = 'NeuralAnalysis'
 
     def __init__(self, gen_dataset, model, task, device):
@@ -49,7 +47,6 @@ class NeuralAnalysisExplainer(Explainer):
 
     @staticmethod
     def check_availability(gen_dataset, model_manager):
-        # TODO check if single-graph can be used
         return gen_dataset.is_multi()
 
     @finalize_decorator
@@ -72,7 +69,7 @@ class NeuralAnalysisExplainer(Explainer):
                 pbar_n = (kwargs['depth'] - 1) * self.model.get_neurons['level']
                 self.pbar.reset(pbar_n)
             neuron_concepts = self.concept_search(**kwargs)
-            cleaned_concepts, distilled = clean_concepts(neuron_concepts)  # QUE What is distilled ? ? ?
+            cleaned_concepts, distilled = clean_concepts(neuron_concepts)
             if 'level' in kwargs or 'neuron_idxs' not in kwargs:
                 self.raw_explanation = [cleaned_concepts, {}]
                 for n in range(self.gen_dataset.num_classes):
@@ -90,7 +87,7 @@ class NeuralAnalysisExplainer(Explainer):
                 raise NotImplementedError
         else:
             raise NotImplementedError
-        self.pbar.n = pbar_n - 1 # TODO some kind of patch maybe fix needed
+        self.pbar.n = pbar_n - 1
         self.pbar.update(1)
         self.pbar.close()
 
@@ -98,7 +95,7 @@ class NeuralAnalysisExplainer(Explainer):
         kwargs = self._run_kwargs
         if self._run_mode == 'global':
             neuron_structure = self.model.get_neurons()
-            if 'level' in kwargs or 'neuron_idxs' not in kwargs:  # TODO Refactor: Some kostyl code
+            if 'level' in kwargs or 'neuron_idxs' not in kwargs:
                 if 'level' not in kwargs:
                     level = self.model.model_info['last_graph_layer_ind'] - 1
                 else:
@@ -114,8 +111,6 @@ class NeuralAnalysisExplainer(Explainer):
         self.pbar = None
 
     def concept_search(self, level=None, depth=1, neuron_idxs=None, top=64, augment=False, omega=None, **kwargs):
-
-        # TODO neuron_idxs usage has to be implemented. Not used in original code but we can modify it
 
         if omega is None:
             omega = [10, 20, 20]
@@ -409,7 +404,6 @@ class NeuralAnalysisExplainer(Explainer):
             raise Exception('No method %s' % method)
 
     def concept_layer(self, x, edge_index, level, batch=None, feature_maps=None):
-        # TODO kostyl have to be reworked with get_all_layer_embeddings
 
         con = self.model.conn_dict[(self.model.n_layers - level, 3)][0]
         con_pool = import_by_name(con['pool']['pool_type'],

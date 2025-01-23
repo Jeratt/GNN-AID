@@ -36,7 +36,6 @@ class PanelModelArchView extends PanelView {
     onSubmit(block, data) {
         super.onSubmit(block, data)
         if (block === "mconstr" || block === "mload" || block === "mcustom") {
-            // FIXME for mcust weights and architecture can be unknown
             this.modelStructureConfig = data["architecture"]["layers"]
             this.modelWeights = data["weights"]
             this._init()
@@ -89,7 +88,6 @@ class PanelModelArchView extends PanelView {
         if (this.modelStructureConfig == null || Object.keys(this.modelStructureConfig).length === 0) {
             this.$body.html("Not available")
             this._collapse(true)
-            // FIXME what if we know weights but not structure ?
             return
         }
 
@@ -103,7 +101,7 @@ class PanelModelArchView extends PanelView {
 
         // Function drawing an parameters data object
         let marginText = 5
-        let marginBlocks = 140 // TODO make it = rightmost bound of all texts
+        let marginBlocks = 140
         let draw = (kv, primitives, offsets, keysList=[], depth=0) => {
             for (let [key, value] of Object.entries(kv)) {
                 let text
@@ -148,7 +146,6 @@ class PanelModelArchView extends PanelView {
                             offsets[1] += 25 - 2*depth
                         }
                     }
-                    // TODO others
                     continue
                 }
 

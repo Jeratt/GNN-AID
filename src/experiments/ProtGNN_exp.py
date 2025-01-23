@@ -38,13 +38,6 @@ def test_prot(i=None, conv=None, batch_size=24, seed=5,
         dataset_ver_ind=0)
     """
 
-    # if dataset_name.lower() == 'mutag':
-    #     dataset = TUDataset(root='./data/torch-geometric', name='MUTAG')
-    # elif dataset_name.lower() == 'graph-sst2':
-    #     dataset = SentiGraphDataset(root="/home/sazonov/PycharmProjects/Interpretation/src/experiments/datasets",
-    #                                 name='Graph-SST2')
-    # else:
-    #     raise NotImplementedError
 
     # my_device = device('cuda' if is_available() else 'cpu')
     full_name = ("multiple-graphs", "TUDataset", 'MUTAG')
@@ -99,24 +92,8 @@ def test_prot(i=None, conv=None, batch_size=24, seed=5,
 
     model = model_configs_zoo(dataset=dataset, model_name='gin_gin_gin_lin_lin_prot')
 
-    """
-    #Fixing model parameters
-    ckpt_pth = os.path.join("/home/sazonov/PycharmProjects/Interpretation/models", "Protgnn.pth")
-    if os.path.exists(ckpt_pth):
-        print("LOADING MODEL")
-        #update_state_dict(model, ckpt_pth)
-        model.load_state_dict(torch.load(ckpt_pth))
-        print("MODEL SUCCESSFULLY LOADED")
-    else:
-        print("SAVING MODEL WEIGHTS")
-        torch.save(model.state_dict(), ckpt_pth)
-        print("MODEL SAVED")
-    torch.nn.init.normal(model.prototype_vectors) #Randomize prototype initialization here!
-    print("PROTOTYPE VECTORS RANDOMIZED")
-    """
     prot_gnn_mm = ProtGNNModelManager(gnn=model,
                                       dataset_path=results_dataset_path, )
-    # TODO Misha use as training params: clst=clst, sep=sep, save_thrsh=save_thrsh, lr=lr
     best_acc = prot_gnn_mm.train_model(gen_dataset=dataset, steps=100,
                                        metrics=[Metric("F1", mask='train', average=None)])
 
@@ -125,10 +102,7 @@ def test_prot(i=None, conv=None, batch_size=24, seed=5,
                                                 explainer_ver_ind=0, )
     explainer_Prot.conduct_experiment(mode='global')
 
-    # explainer_result_file_path = "/home/sazonov/PycharmProjects/Interpretation/results/ProtGNN/explanation" + str(
-    #     i) + ".json"
-    # explanation = getattr(model, model.prot_layer_name).result_prototypes(best_prots, True)
-    # explanation.create_json(explainer_result_file_path)
+
     return best_acc
 
 
@@ -170,39 +144,33 @@ def selection(dataset_name='MUTAG'):
             scores[i][j] = np.mean(acc_lst)
             stds[i][j] = np.std(acc_lst)
     out = pd.DataFrame(scores, columns=clst)
-    out.to_csv("/home/sazonov/PycharmProjects/Interpretation/results/ProtGNN/parameters.csv")
-    pd.DataFrame(stds, columns=clst).to_csv("/home/sazonov/PycharmProjects/Interpretation/results/ProtGNN/stds.csv")
     #out = out.to_numpy()
     
     # print(stds)
     '''
 
-    out = pd.read_csv(
-        "/home/sazonov/PycharmProjects/Interpretation/results/ProtGNN/parameters.csv").to_numpy()
-    out_stds = pd.read_csv(
-        "/home/sazonov/PycharmProjects/Interpretation/results/ProtGNN/stds.csv").to_numpy()
     # print(scores)
 
-    print(out)
-
-    # float_formatter = "{:.2f}".format
-    # np.set_printoptions(formatter={'float_kind': float_formatter})
-
-    fig, ax = plt.subplots()
-    im = ax.imshow(out)
-
-    ax.set_xticks(np.arange(5), labels=clst.tolist())
-    ax.set_yticks(np.arange(5), labels=sep.tolist())
-    plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
-    for i in range(5):
-        for j in range(5):
-            text = ax.text(j, i, str(np.round(out[i, j], 3)) + ' +- \n' + str(
-                np.round(out_stds[i, j], 3)),
-                           ha="center", va="center", color="w")
-
-    ax.set_title("Model score depending on clst/sep loss\nMean +- Std")
-    fig.tight_layout()
-    plt.show()
+    # print(out)
+    #
+    # # float_formatter = "{:.2f}".format
+    # # np.set_printoptions(formatter={'float_kind': float_formatter})
+    #
+    # fig, ax = plt.subplots()
+    # im = ax.imshow(out)
+    #
+    # ax.set_xticks(np.arange(5), labels=clst.tolist())
+    # ax.set_yticks(np.arange(5), labels=sep.tolist())
+    # plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+    # for i in range(5):
+    #     for j in range(5):
+    #         text = ax.text(j, i, str(np.round(out[i, j], 3)) + ' +- \n' + str(
+    #             np.round(out_stds[i, j], 3)),
+    #                        ha="center", va="center", color="w")
+    #
+    # ax.set_title("Model score depending on clst/sep loss\nMean +- Std")
+    # fig.tight_layout()
+    # plt.show()
 
     """
     for i in range(10):

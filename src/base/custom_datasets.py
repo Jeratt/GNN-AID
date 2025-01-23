@@ -127,7 +127,6 @@ class CustomDataset(GeneralDataset):
         """ Get DatasetData for debug graph
         Structure according to https://docs.google.com/spreadsheets/d/1fNI3sneeGoOFyIZP_spEjjD-7JX2jNl_P8CQrA4HZiI/edit#gid=1096434224
         """
-        # TODO misha - can we use ptg dataset? Problem is that it is not built at this stage.
         # super()._compute_dataset_data()
 
         self.dataset_data = {
@@ -136,7 +135,6 @@ class CustomDataset(GeneralDataset):
 
         # Read edges and attributes
         if self.is_multi():
-            # FIXME misha format
             count = self.info.count
             node_maps = []  # list of node_maps
 
@@ -163,7 +161,6 @@ class CustomDataset(GeneralDataset):
                     if self.info.remap:
                         i = node_map[i]
                         j = node_map[j]
-                    # TODO misha can we reuse one of them?
                     edges.append([i, j])
                     ptg_edge_index[0].append(i)
                     ptg_edge_index[1].append(j)
@@ -227,7 +224,6 @@ class CustomDataset(GeneralDataset):
                     if self.info.remap:
                         i = node_map[i]
                         j = node_map[j]
-                    # TODO misha can we reuse one of them?
                     edges.append([i, j])
                     ptg_edge_index[0].append(i)
                     ptg_edge_index[1].append(j)
@@ -276,7 +272,6 @@ class CustomDataset(GeneralDataset):
         """ Create PTG Dataset and save tensors
         """
         if self.edge_index is None:
-            # TODO Misha think if it's good
             self._compute_dataset_data()
 
         data_list = []
@@ -347,8 +342,6 @@ class CustomDataset(GeneralDataset):
         def as_is(x):
             return x if isinstance(x, list) else [x]
 
-        # TODO other encoding types from Kirill
-
         if self.is_multi():
             nodes = self.info.nodes[g_ix]
         else:  # single
@@ -366,10 +359,9 @@ class CustomDataset(GeneralDataset):
         def assign_feats(feat):
             for n, orig in self._iter_nodes(g_ix):
                 value = feat[orig]
-                assert value is not None  # FIXME misha what to do?
+                assert value is not None
                 node_features[n].extend(vec(value))
 
-        # TODO misha - can optimize? read the whole files for each graph
         node_attributes = self.info.node_attributes
         assert set(features["attr"]).issubset(node_attributes["names"])
         if self.node_attributes_dir.exists():

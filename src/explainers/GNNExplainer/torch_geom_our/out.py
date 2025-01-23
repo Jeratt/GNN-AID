@@ -117,7 +117,6 @@ class GNNExplainer(Explainer):
         important_edges = {}
         important_nodes = {}
 
-        # TODO What if edge_mask_type or node_mask_type is None, common_attributes, attributes?
         if self.edge_mask_type is not None and self.node_mask_type is not None:
 
             # Multi graphs check is not needed: the explanation format for
@@ -148,7 +147,6 @@ class GNNExplainer(Explainer):
             important_edges = {self.graph_idx: important_edges}
             important_nodes = {self.graph_idx: important_nodes}
 
-        # TODO Write functions with output threshold
         self.explanation.add_edges(important_edges)
         self.explanation.add_nodes(important_nodes)
 

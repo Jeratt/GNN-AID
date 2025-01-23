@@ -31,7 +31,6 @@ class ForceNeighborhoodLayout extends Layout {
             this.a[n] = new Vec(0, 0)
             this.m[n] = 0.1
         }
-        // FIXME generalize
         let depth = this.visibleGraph.depth
         this.m[this.visibleGraph.n0] = 3*nodes.size
         if (depth >= 1)
@@ -156,7 +155,6 @@ class ForceNeighborhoodLayout extends Layout {
             this.pos[n].add(Vec.mul(this.v[n], dt))
             this.v[n].add(Vec.mul(this.a[n], dt))
 
-            // TODO ?
             // this.vx[n] = this.vx[n] > 0 ? ((1 + this.vx[n]) ** this.visc) - 1 : 1-((1-this.vx[n]) ** this.visc)
             // this.vy[n] = this.vy[n] > 0 ? ((1 + this.vy[n]) ** this.visc) - 1 : 1-((1-this.vy[n]) ** this.visc)
             // this.v[n].mul(this.visc)
@@ -227,7 +225,6 @@ class ForceNeighborhoodLayout extends Layout {
         //calculating attracting forces
         for (const [d, es] of Object.entries(this.visibleGraph.edges)) {
             for (let [i, j] of es) {
-                // FIXME check
                 // if ((i >= j) && (this.directed === false)) {
                 //     continue
                 // }

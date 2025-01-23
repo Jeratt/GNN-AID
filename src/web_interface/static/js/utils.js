@@ -423,7 +423,6 @@ function JSON_stringify(object, space) {
 // Create a valid HTML id from a given name
 function nameToId(name) {
     let string = "" + name
-    // TODO what about other symbols?
     for (const x of " ,;:'\"()[]{}/") {
         string = string.replaceAll(x, '-')
     }

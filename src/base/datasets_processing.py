@@ -52,7 +52,6 @@ class DatasetInfo:
                     assert isinstance(v, int) and v > 0
         assert len(self.labelings) > 0
         for k, v in self.labelings.items():
-            # TODO Misha - what about regression?
             assert isinstance(k, str)
             assert isinstance(v, int) and v > 1
 
@@ -78,7 +77,6 @@ class DatasetInfo:
         assert self.remap is False
         assert len(self.node_attributes["names"]) == 1
         assert self.node_attributes["types"][0] == "other"
-        # TODO check features values range
 
     def check(self):
         """ Check metainfo is sufficient, consistent, and valid. """
@@ -270,7 +268,7 @@ class GeneralDataset:
         self.dataset: Dataset = None  # PTG dataset
 
         # Train/test mask config
-        self.percent_test_class = None  # FIXME misha do we need it here? it is in manager_config
+        self.percent_test_class = None
         self.percent_train_class = None
 
         self.train_mask = None
@@ -283,13 +281,11 @@ class GeneralDataset:
     @property
     def root_dir(self):
         """ Dataset root directory with folders 'raw' and 'prepared'. """
-        # FIXME Misha, dataset_prepared_dir return path and files_paths not only path
         return Declare.dataset_root_dir(self.dataset_config)[0]
 
     @property
     def results_dir(self):
         """ Path to 'prepared/../' folder where tensor data is stored. """
-        # FIXME Misha, dataset_prepared_dir return path and files_paths not only path
         return Path(Declare.dataset_prepared_dir(self.dataset_config, self.dataset_var_config)[0])
 
     @property
@@ -380,7 +376,6 @@ class GeneralDataset:
         num = len(self.dataset)
         data_list = [self.dataset.get(ix) for ix in range(num)]
         is_directed = self.info.directed
-        #     # FIXME node_attributes must be attributes, features only for ptg dataset!
         name_type = self.dataset_var_config.features['attr']
 
         if self.is_multi():
@@ -455,7 +450,6 @@ class GeneralDataset:
     def _compute_dataset_var_data(self):
         """ Prepare dataset_var_data for frontend on demand.
         """
-        # FIXME version fail in torch-geom 2.3.1
         # self.dataset.num_classes = int(self.dataset_data["info"]["labelings"][self.dataset_var_config.labeling])
 
         labels = []
@@ -522,9 +516,7 @@ class GeneralDataset:
                 return value
 
             elif stat == 'avg_degree_distr':
-                # TODO check for (un)directed
                 m = self.dataset_data['edges']
-                # FIXME misha can't use dataset_data when partial data is sent to front
                 coeff = 1 if self.info.directed else 2
                 avg = [coeff * len(m[i]) / self.info.nodes[i] for i in range(self.info.count)]
                 value = {}
@@ -538,7 +530,6 @@ class GeneralDataset:
             elif stat == "num_edges":
                 import numpy as np
                 m = self.dataset_data['edges']
-                # FIXME misha can't use dataset_data when partial data is sent to front
                 coeff = 1 if self.info.directed else 2
                 es = [coeff * len(m[i]) for i in range(self.info.count)]
                 value = f"{np.min(es)} — {np.max(es)}"
@@ -548,7 +539,6 @@ class GeneralDataset:
             elif stat == "avg_deg":
                 import numpy as np
                 m = self.dataset_data['edges']
-                # FIXME misha can't use dataset_data when partial data is sent to front
                 coeff = 1 if self.info.directed else 2
                 value = np.mean([coeff * len(m[i]) for i in range(self.info.count)])
 
@@ -566,7 +556,6 @@ class GeneralDataset:
             for i, j in self.dataset_data["edges"][0]:
                 g.add_edge(i, j)
             try:
-                # TODO misha simplify - some stats can be computed easier
                 if stat == "num_edges":
                     value = g.number_of_edges()
 
@@ -708,7 +697,6 @@ class DatasetManager:
 
         return gen_dataset
 
-    # QUE Misha, Kirill - can we use get_by_config always instead of it?
     @staticmethod
     @timing_decorator
     def get_by_config(dataset_config: DatasetConfig,
@@ -716,13 +704,11 @@ class DatasetManager:
         """ Get GeneralDataset by dataset config. Used from the frontend.
         """
         dataset_group = dataset_config.group
-        # TODO misha - better make a more hierarchical grouping?
         if dataset_group in ["custom"]:
             from base.custom_datasets import CustomDataset
             gen_dataset = CustomDataset(dataset_config)
 
         elif dataset_group in ["vk_samples"]:
-            # TODO misha - it is a kind of custom?
             from base.vk_datasets import VKDataset
             gen_dataset = VKDataset(dataset_config)
 
@@ -759,7 +745,6 @@ class DatasetManager:
         dataset.build(dataset_var_config=dataset_var_config)
         dataset.train_test_split(percent_train_class=kwargs.get("percent_train_class", 0.8),
                                  percent_test_class=kwargs.get("percent_test_class", 0.2))
-        # IMP Kirill suggest to return only dataset, else is its parts
         return dataset, dataset.data, dataset.results_dir
 
     @staticmethod
@@ -795,7 +780,6 @@ class DatasetManager:
         """
         :return: GeneralDataset
         """
-        # TODO misha
 
     @staticmethod
     def _register_torch_geometric(
@@ -858,7 +842,6 @@ class DatasetManager:
             shutil.copytree(os.path.abspath(dataset.processed_dir), results_dir,
                             dirs_exist_ok=True)
         else:  # Create symlink
-            # FIXME what will happen if we modify graph and its data.pt ?
             results_dir.symlink_to(os.path.abspath(dataset.processed_dir),
                                    target_is_directory=True)
 

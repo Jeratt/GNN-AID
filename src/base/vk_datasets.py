@@ -77,7 +77,6 @@ class AttrInfo:
                 res = [1, 0]
 
         elif full_name == ('test', 'toy'):
-            # TODO Misha read from ...info file
             res = {
                 'a': None,  # continuous
                 'b': ["A", "B", "CCC"]
@@ -102,7 +101,6 @@ class AttrInfo:
         :return: vector of length = len(AttrHelper.attribute_vals(graph, attribute)) or +1 if
          add_none is True.
         """
-        # TODO if called often, we can cache it
         allowed_vals = AttrInfo.attribute_vals(full_name, attribute)
 
         if allowed_vals is None:  # continuous - return as list of this value
@@ -135,7 +133,6 @@ class AttrInfo:
         else:
             res = np.zeros(len(allowed_vals))
             for pos, val in enumerate(allowed_vals):  # NOTE: iteration over set not list
-                # FIXME str or int?
                 if val == value:
                     res[pos] = 1
                     break
@@ -161,8 +158,6 @@ class VKDataset(CustomDataset):
         """
         super()._compute_dataset_data()
 
-        # TODO Misha do we want add node attributes to send to front? See attr name
-        #  Problem is that attr names are diff in attrs folder and in .info
         self.dataset_data["node_attributes"] = {}
 
         # # Add node labelings present in folder
@@ -170,18 +165,14 @@ class VKDataset(CustomDataset):
         # for filename in os.listdir(self.labels_dir):
         #     with open(self.labels_dir / filename, 'r') as f:
         #         d = json.load(f)
-        #         # TODO Misha get unique
         #         labelings[filename] = max([-1 if x is None else x for x in d.values()]) + 1
         # self.dataset_data["info"]["labelings"] = labelings
 
     def _feature_tensor(self, g_ix=None) -> list:
-        # FIXME Misha self.node_map[graph] ...
         x = [[] for _ in range(len(self.node_map))]
         features = self.dataset_var_config.features
         if not features:
             raise RuntimeError("features_dict is empty, need any feature, to create feature tensor")
-
-        # TODO Kirill support all features types
 
         if "str_g" in features and features["str_g"] == "one_hot":
             raise NotImplementedError()

@@ -43,19 +43,16 @@ class Diagram:
         for b_after in block.influences:
             go = b_after.condition([b_before.is_set() for b_before in b_after.requires])
             if go:
-                # IMP add params names as blocks names
                 b_after.init(*[x.get_object() for x in b_after.requires if x.is_set()])
 
     def on_drop(self, block):
         """ Recursively break all block that critically depend on the given one
         """
         print('Diagram.onBreak(' + block.name + ')')
-        # Check as each depends on all - TODO make custom
         for b in block.influences:
             b.breik()
 
     def drop(self):
         """ Drop all blocks. """
-        # FIXME many blocks will break many times
         for block in self.blocks.values():
             block.breik()

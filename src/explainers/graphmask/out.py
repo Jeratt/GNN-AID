@@ -40,7 +40,6 @@ class GraphMaskExplainer(Explainer, ExplainerBase):
                  coff_size: float = 0.001,
                  coff_ent: float = 0.001,
                  allowance: float = 0.03):
-        # TODO can we use device=my_device ?
         ExplainerBase.__init__(self, model, epochs, lr, explain_graph=gen_dataset.is_multi())
         self.table = None  # NOTE: remove unpickable attribute, it is useless for us
         Explainer.__init__(self, gen_dataset, model)
@@ -178,7 +177,6 @@ class GraphMaskExplainer(Explainer, ExplainerBase):
 
         if self.gen_dataset.is_multi():
             raise NotImplementedError
-            # TODO Danil - what should be here?
             # pred = [self.gnn(data.x, data.edge_index).argmax(-1).item()
             #         for data in self.gen_dataset.dataset]
             # pred = [self.model.get_answer(data.x, data.edge_index).item()

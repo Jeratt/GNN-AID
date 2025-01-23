@@ -56,7 +56,6 @@ class GNNExplainer(Explainer, ExplainerBase):
                  lr: float = 0.01,
                  coff_size: float = 0.001,
                  coff_ent: float = 0.001):
-        # TODO can we use device=my_device ?
         ExplainerBase.__init__(self, model, epochs, lr, explain_graph=gen_dataset.is_multi())
         self.table = None  # NOTE: remove unpickable attribute, it is useless for us
         Explainer.__init__(self, gen_dataset, model)
@@ -140,7 +139,6 @@ class GNNExplainer(Explainer, ExplainerBase):
             related_predictions is a list of dictionary for each class
             where each dictionary includes 4 type predicted probabilities.
         """
-        # TODO make idx = kwargs.get('idx') for node and graph explain
         idx = kwargs.get('element_idx')
 
         if self.gen_dataset.is_multi():
@@ -225,7 +223,6 @@ class GNNExplainer(Explainer, ExplainerBase):
 
         if self.gen_dataset.is_multi():
             # raise NotImplementedError
-            # TODO Misha S - what should be here?
             # pred = [self.gnn(data.x, data.edge_index).argmax(-1).item()
             #         for data in self.gen_dataset.dataset]
             # pred = [self.model.get_answer(data.x, data.edge_index).item()

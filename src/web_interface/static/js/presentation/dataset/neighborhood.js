@@ -134,7 +134,6 @@ class Neighborhood extends VisibleGraph {
     // Get degree of a node in an induced subgraph (for 2nd neighbors it is less than the actual)
     getDegree(node) {
         let degree = 0
-        // TODO O(E) is quite long
         for (const es of this.edges) {
             for (const [i, j] of es) {
                 if (i === node || j === node)

@@ -48,7 +48,7 @@ class ZorroExplainer(Explainer, Zorro):
         assert mode == "local"
         assert not self.gen_dataset.is_multi()
         idx = kwargs.pop('element_idx')
-        self.pbar.reset(total=0)  # TODO misha num of steps = ???
+        self.pbar.reset(total=0)
         self.raw_explanation = self.explain_node(
             full_feature_matrix=self.gen_dataset.data.x,
             edge_index=self.gen_dataset.data.edge_index, node_idx=idx, **kwargs)

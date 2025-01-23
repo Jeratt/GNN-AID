@@ -90,7 +90,6 @@ class GNNModelManager:
                 _config_class="ModelManagerConfig",
                 _config_kwargs=manager_config.to_saveable_dict(),
             )
-        # TODO Kirill, write raise Exception
         # else:
         #     raise Exception()
 
@@ -108,14 +107,12 @@ class GNNModelManager:
                 _config_class="ModelModificationConfig",
                 _config_kwargs=modification.to_dict(),
             )
-        # TODO Kirill, write raise Exception
         # else:
         #     raise Exception()
 
         self.manager_config = manager_config
         self.modification = modification
 
-        # QUE Kirill do we need to store it? maybe pass when need to
         self.dataset_path = None
 
         self.gnn = None
@@ -144,7 +141,6 @@ class GNNModelManager:
 
     def get_name(self):
         manager_name = self.manager_config.to_saveable_dict()
-        # FIXME Kirill, make ModelManagerConfig and remove manager_name[CONFIG_CLASS_NAME]
         manager_name[CONFIG_CLASS_NAME] = self.__class__.__name__
         # for key, value in kwargs.items():
         #     manager_name[key] = value
@@ -193,7 +189,6 @@ class GNNModelManager:
         else:
             model_dir_path = path
 
-        # TODO Kirill, check default parameters in gnn
         self.load_model(path=path, **kwargs)
         self.gnn.eval()
         return model_dir_path
@@ -401,7 +396,6 @@ class FrameworkGNNModelManager(GNNModelManager):
         :param kwargs: kwargs for GNNModelManager
         """
 
-        # TODO Kirill, add train_test_split in default parameters gnnMM
         super().__init__(**kwargs)
 
         # Fulfill absent fields from default configs
@@ -417,7 +411,7 @@ class FrameworkGNNModelManager(GNNModelManager):
         # Add fields from additional config
         self.manager_config = self.manager_config.merge(self.additional_config)
 
-        self.stop_signal = False  # TODO misha do we need it?
+        self.stop_signal = False
         self.gnn = gnn
 
         if self.modification.epochs is None:
@@ -441,7 +435,6 @@ class FrameworkGNNModelManager(GNNModelManager):
         if self.gnn is None:
             raise Exception("FrameworkGNNModelManager need GNN, now GNN is None")
 
-        # QUE Kirill, can we make this better
         if "optimizer" in getattr(self.manager_config, CONFIG_OBJ):
             self.optimizer = getattr(self.manager_config, CONFIG_OBJ).optimizer.create_obj(params=self.gnn.parameters())
             # self.optimizer = getattr(self.manager_config, CONFIG_OBJ).optimizer.create_obj()
@@ -456,8 +449,6 @@ class FrameworkGNNModelManager(GNNModelManager):
     def train_1_step_single(self, gen_dataset):
         """ Version of train for a single graph
         """
-        # TODO Kirill think can we create DataLoader instead of gen_dataset ?
-        #  pass DataLoader to train_1_step_single and train_1_step_mul
 
         data = gen_dataset.dataset._data
         train_ver_ind = [n for n, x in enumerate(gen_dataset.train_mask) if x]
@@ -523,8 +514,6 @@ class FrameworkGNNModelManager(GNNModelManager):
         # number_of_batches = ceil(train_mask_size / self.batch)
         # data_x_elem_len = data.x.size()[1]
 
-        # FIXME Kirill this is done at each step - can we optimize?
-        #  e.g. before_train()
         dataset = gen_dataset.dataset
         train_dataset = dataset.index_select(gen_dataset.train_mask)
         train_loader = DataLoader(train_dataset, batch_size=self.batch, shuffle=False)
@@ -641,7 +630,6 @@ class FrameworkGNNModelManager(GNNModelManager):
                     try:
                         report_results(train_loss)
                     except Exception: pass
-                # TODO Misha can we pass pbar into self.train_full ?
                 pbar.update(steps)
                 pbar.close()
                 self.send_data("mt", {"status": "FINISHED"})
@@ -697,7 +685,7 @@ class FrameworkGNNModelManager(GNNModelManager):
                     full_out = torch.cat((full_out, out))
                     # y_true = torch.cat((y_true, data.y))
             else:  # single-graph
-                data = gen_dataset.dataset._data  # FIXME what if no data? use .get(0) ?
+                data = gen_dataset.dataset._data
                 ver_ind = [n for n, x in enumerate(mask) if x]
                 mask_size = len(ver_ind)
 
@@ -727,7 +715,6 @@ class FrameworkGNNModelManager(GNNModelManager):
 
                     # mask_x_tensot = torch.masked.masked_tensor(data.x, features_mask_tensor_copy)
 
-                    # FIXME Kirill what to do if no optimizer, train_mask_flag, batch?
                     if hasattr(self, 'optimizer'):
                         self.optimizer.zero_grad()
                     # logits_batch = self.gnn(data_x_copy, data.edge_index)
@@ -943,8 +930,6 @@ class ProtGNNModelManager(FrameworkGNNModelManager):
         Train ProtGNN model for Graph classification
         """
         metrics = metrics or []
-        # TODO Misha can we split into 1-step funcs?
-        #  do we need steps here?
 
         # Get prot layer and its params
         prot_layer = getattr(self.gnn, self.gnn.prot_layer_name)
@@ -957,18 +942,13 @@ class ProtGNNModelManager(FrameworkGNNModelManager):
         warm_epoch = _config_obj.warm_epoch
         save_epoch = _config_obj.save_epoch
         save_thrsh = _config_obj.save_thrsh
-        # TODO implement other MCTS args too
         mcts_args.min_atoms = _config_obj.mcts_min_atoms
         mcts_args.max_atoms = _config_obj.mcts_max_atoms
         prot_thrsh = _config_obj.prot_thrsh
 
         print(f"cluster loss cost: {clst}", f"separation loss cost: {sep}", sep='\n')
 
-        # TODO Misha use save_model_flag and other params
-        # TODO Misha add checkpoint
-
         # criterion = torch.nn.CrossEntropyLoss()
-        # FIXME use optimizer from manager_config and its LR
         self.optimizer = torch.optim.Adam(self.gnn.parameters(), lr=lr)
 
         dataset = gen_dataset.dataset
@@ -1206,7 +1186,6 @@ class ProtGNNModelManager(FrameworkGNNModelManager):
 
                     # mask_x_tensor = torch.masked.masked_tensor(data.x, features_mask_tensor_copy)
 
-                    # FIXME Kirill what to do if no optimizer, train_mask_flag, batch?
                     if hasattr(self, 'optimizer'):
                         self.optimizer.zero_grad()
                     # logits_batch = self.gnn(data_x_copy, data.edge_index)

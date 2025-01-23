@@ -60,14 +60,12 @@ class PGExplainer(nn.Module, Explainer):
 
         self.graph_idx = None
 
-        # TODO how can we take last_conv_emb_size easier?
         self._last_conv_emb_size = self.last_conv_emb_size
 
         self.elayers.append(nn.Sequential(nn.Linear(self._last_conv_emb_size, 64), nn.ReLU()))
         self.elayers.append(nn.Linear(64, 1))
         self.elayers.to(self.device)
 
-        # TODO think about path / add for different models
         self._ckpt_path = self.ckpt_path  # path to the generator file
 
     def __set_masks__(self, x, edge_index, edge_mask=None):
@@ -113,7 +111,6 @@ class PGExplainer(nn.Module, Explainer):
     @property
     def last_conv_emb_size(self):
         if self.gen_dataset.is_multi():
-            # TODO this may not work for non GIN models
             # FOR Test
             # valid architecture: (GIN, GIN, Pool)
             out_features = self.model.structure[-2]['layer']["gin_seq"][0]['layer']['layer_kwargs']['out_features']
@@ -219,8 +216,6 @@ class PGExplainer(nn.Module, Explainer):
             else:
                 # emb = self.model(x, edge_index)
                 all_layer_embeddings = self.model.get_all_layer_embeddings(x, edge_index)
-                # TODO emb = emb_ for node classification:
-                #  whether layer activation is taken into account for .get_all_layer_embeddings?
                 emb = list(all_layer_embeddings.values())[-1]
                 # emb_ = self.model(x, edge_index)
                 prob = self.model.get_predictions(x, edge_index)
@@ -348,7 +343,6 @@ class PGExplainer(nn.Module, Explainer):
 
         return edge_mask
 
-    # TODO write run for PGExplainer multi
     @finalize_decorator
     def run(self, mode, kwargs, finalize=True):
 
@@ -389,7 +383,6 @@ class PGExplainer(nn.Module, Explainer):
         self.pbar.update(1)
         self.pbar.close()
 
-    # TODO write finalize for PGExplainer multi
     def _finalize(self):
         mode = self._run_mode
         assert mode == "local"
@@ -399,7 +392,6 @@ class PGExplainer(nn.Module, Explainer):
         important_edges = {}
         important_nodes = {}
 
-        # TODO make top_k not in .run kwargs but in real time in front
         edge_mask = self.raw_explanation['edge_mask']
         edge_index_original_index = self.raw_explanation['edge_index_original_index']
         top_k = self.raw_explanation['top_k']
@@ -409,13 +401,12 @@ class PGExplainer(nn.Module, Explainer):
         _, important_edges = get_topk_edges_subgraph(edge_index_original_index,
                                                      edge_mask,
                                                      top_k=top_k,
-                                                     un_directed=True)  # TODO how understand 'un_directed' using dataset?
+                                                     un_directed=True)
 
         if self.gen_dataset.is_multi():
             important_edges = {self.graph_idx: important_edges}
             important_nodes = {self.graph_idx: important_nodes}
 
-        # TODO Misha D. fix the rendering threshold on the front
         self.explanation.add_edges(important_edges)
         self.explanation.add_nodes(important_nodes)
 

@@ -78,15 +78,12 @@ def test_SubgraphX():
     #     conv_kwargs={}
     # )
 
-    # # /home/lukyanovkirill/Projects/MUTAG.pkl
     # class MyGNNModelManager(GNNModelManager):
     #     def __init__(self, dataset_path):
     #         super().__init__()
     #         self.dataset_path = dataset_path
     #
     # mm = MyGNNModelManager(dataset_path=results_dataset_path)
-    # mm.load_model(path='/home/lukyanovkirill/Projects/MUTAG')
-    # # mm.load_model(path='/home/lukyanovkirill/Projects/model')
     # print(mm.gnn)
 
     gnn = model_configs_zoo(dataset=dataset, model_name='gcn_gcn')

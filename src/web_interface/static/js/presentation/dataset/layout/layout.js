@@ -29,7 +29,6 @@ class Layout {
         let nodes = this.visibleGraph.getNodes()
         let r = nodes.size ** 0.5
         for (const n of nodes)
-            // TODO increase zone according to num of nodes
             this.pos[n] = new Vec(r*Math.random(), r*Math.random())
     }
 
@@ -54,7 +53,7 @@ class Layout {
         if (this.freeze)
             this.stopMoving()
         else
-            this.startMoving() // TODO this.iteration = 0 leads to high volatility
+            this.startMoving()
     }
 
     // Start a cycle of searching an optimal position

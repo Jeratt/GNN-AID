@@ -22,7 +22,6 @@ class FrontendClient:
     def __init__(self, socketio: SocketConnect):
         self.socket = SocketConnect(socket=socketio)
 
-        # TODO this should be updated regularly or by some event
         self.storage_index = {  # type -> PrefixStorage
             'D': None, 'DV': None, 'M': None, 'CM': None, 'E': None}
         self.parameters = {  # type -> Parameters dict

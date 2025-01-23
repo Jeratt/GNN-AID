@@ -142,7 +142,7 @@ class MultipleGraphs extends VisibleGraph {
 
         let ix = 0
         for (let g of graphsData) {
-            // for (let i=0; i<this.count; i++) { // TODO what if not all graphs ?
+            // for (let i=0; i<this.count; i++) {
 
             let graph = new Graph(this.datasetInfo, this.svgPanel)
             graph.numNodes = nodesData[ix]
@@ -155,8 +155,8 @@ class MultipleGraphs extends VisibleGraph {
         }
         // To avoid calling _build several times
         if (this.visibleConfig["center"] !== null) {
-            this._graph = this.visibleConfig["center"] // fixme what if not
-            this._count = "several" // fixme what if not several?
+            this._graph = this.visibleConfig["center"]
+            this._count = "several"
         }
         await super._build()
     }
@@ -400,7 +400,6 @@ class MultipleGraphs extends VisibleGraph {
         // Update SVG elements according to layout and scale
         for (const [n, svgGraph] of Object.entries(this.graphPrimitives)) {
             let aGraph = this.graphs[n]
-            // FIXME approxBBox() is called twice
             let bbox = aGraph.approxBBox()
             svgGraph.moveTo(bbox.x, bbox.y, bbox.width, bbox.height)
             svgGraph.scale(this.scale)

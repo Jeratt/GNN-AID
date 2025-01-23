@@ -88,7 +88,6 @@ class DatasetView extends View {
         }
         else if (block === "mmc") {
             if (this.datasetVar) {
-                // TODO other model vars
                 this.datasetVar['train-test-mask'] = null
                 this.visibleGraph.setSatellite('train-test-mask', false)
             }
@@ -119,7 +118,6 @@ class DatasetView extends View {
 
     // Update Node info
     setNodeInfo(node, graph) {
-        // TODO extend to graph
         let html = ''
         if (this.visibleGraph) {
             html += this.visibleGraph.getInfo() + '<br>'
@@ -152,7 +150,6 @@ class DatasetView extends View {
             }
         }
         else if (event === "right") {
-            // TODO show popup-menu
         }
     }
 
@@ -208,7 +205,6 @@ class DatasetView extends View {
     }
 
     setExplanation(explanationData) {
-        // fixme duplicates expl from datasetView
         let explanation
         switch (explanationData["info"]["type"]) {
             case "subgraph":

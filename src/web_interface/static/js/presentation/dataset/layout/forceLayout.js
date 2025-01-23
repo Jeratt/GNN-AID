@@ -113,7 +113,6 @@ class ForceLayout extends Layout {
         //     this.a[j].sub(Vec.mul(f, dt / this.m[j]))
         // }
         // randomPairing(func, nodes.size, 300)
-        // TODO this is the most computationally hard part !!!
         for (let i = 0; i < this.numNodes; i++) {
             for (let j = i+1; j < this.numNodes; j++) {
                 // if (i >= j) continue
@@ -159,7 +158,6 @@ class ForceLayout extends Layout {
             this.pos[n].add(Vec.mul(this.v[n], dt))
             this.v[n].add(Vec.mul(this.a[n], dt))
 
-            // TODO ?
             // this.vx[n] = this.vx[n] > 0 ? ((1 + this.vx[n]) ** this.visc) - 1 : 1-((1-this.vx[n]) ** this.visc)
             // this.vy[n] = this.vy[n] > 0 ? ((1 + this.vy[n]) ** this.visc) - 1 : 1-((1-this.vy[n]) ** this.visc)
             // this.v[n].mul(this.visc)

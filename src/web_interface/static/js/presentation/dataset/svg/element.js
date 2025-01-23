@@ -121,7 +121,6 @@ class SvgElement {
             this._addTip(predictions.blocks, "prediction")
         }
         // Set colors
-        // TODO do not update if not visible. But then how to update when it gets visible??
         for (let i=0; i<preds.length; i++)
             predictions.blocks[i].setAttribute('fill',
                 valueToColor(preds[i], PREDICTION_COLORMAP))
@@ -156,7 +155,6 @@ class SvgElement {
             this._addTip(embeddings.blocks, "embedding")
         }
         // Set colors
-        // TODO do not update if not visible. But then how to update when it gets visible??
         for (let i=0; i<embeds.length; i++) {
             let rect = embeddings.blocks[i]
                 let color = valueToColor(embeds[i], EMBEDDING_COLORMAP, -2, 2, true, 0.2)

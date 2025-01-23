@@ -152,7 +152,7 @@ class PanelExplanationInfoSubView extends PanelView {
             default:
                 console.error("Unknown explanation type")
         }
-        this.explanation = explanation // fixme duplicates expl from datasetView
+        this.explanation = explanation
         await this.update()
     }
 

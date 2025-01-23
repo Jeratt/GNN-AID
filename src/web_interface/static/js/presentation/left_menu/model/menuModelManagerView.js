@@ -73,7 +73,7 @@ class MenuModelManagerView extends MenuView {
         // // Batch
         // $cb = $("<div></div>").attr("class", "control-block")
         // $cc.append($cb)
-        // $cb.append($("<label></label>").text("Batch")) // TODO assoc to select ?
+        // $cb.append($("<label></label>").text("Batch"))
         // this.$batch = $("<input>").attr("type", "number").attr("min", "1")
         //     .attr("max", "100000000").attr("step", "1").attr("value", "10000")
         // $cb.append(this.$batch)
